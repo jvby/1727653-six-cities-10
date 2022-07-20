@@ -13,7 +13,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <App
-      placeCount = {Setting.PLACE_COUNT}
+      placeCount={Setting.PLACE_COUNT}
     />
   </React.StrictMode>,
 );

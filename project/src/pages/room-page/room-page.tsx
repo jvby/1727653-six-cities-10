@@ -1,5 +1,5 @@
 
-function PropertyPage(): JSX.Element {
+function RoomPage(): JSX.Element {
   return (
     <div className="page">
       <header className="header">
@@ -337,4 +337,4 @@ function PropertyPage(): JSX.Element {
   );
 }
 
-export default PropertyPage;
+export default RoomPage;

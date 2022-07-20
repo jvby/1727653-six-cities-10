@@ -9,7 +9,7 @@ function MainPage({placeCount}: MainPageProps): JSX.Element {
   const getPlaces = () => {
     const places = Array.from({ length: placeCount }, (v, k) => k);
 
-    return ( places.map((id) => <CardPlace key={id}/>));
+    return places.map((id) => <CardPlace key={id}/>);
   };
 
   return (
