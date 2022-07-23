@@ -10,9 +10,15 @@ function MainPage({rooms}: MainPageProps): JSX.Element {
 
   const [activeRoom, setActiveRoom] = useState<number | null>(null);
 
+  const updateActiveRoom = (newActiveRoom: number | null) => {
+    if (activeRoom !== newActiveRoom) {
+      setActiveRoom(newActiveRoom);
+    }
+  };
+
 
   const getPlaces = () => rooms.map((room) =>
-    <CardPlace key={room.id} room={room} onMouseMoove={setActiveRoom}/>);
+    <CardPlace key={room.id} room={room} onMouseMoove={updateActiveRoom}/>);
 
 
   return (
