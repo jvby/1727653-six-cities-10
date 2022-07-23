@@ -1,16 +1,19 @@
-import CardPlace from '../../components/card-place/card-place';
+import {CardPlace} from '../../components/card-place/card-place';
+import {RoomType} from '../../types/room';
+import React, { useState } from 'react';
 
 type MainPageProps = {
-  placeCount: number;
+  rooms: RoomType[];
 }
 
-function MainPage({placeCount}: MainPageProps): JSX.Element {
+function MainPage({rooms}: MainPageProps): JSX.Element {
 
-  const getPlaces = () => {
-    const places = Array.from({ length: placeCount }, (v, k) => k);
+  const [activeRoom, setActiveRoom] = useState<number | null>(null);
 
-    return places.map((id) => <CardPlace key={id}/>);
-  };
+
+  const getPlaces = () => rooms.map((room) =>
+    <CardPlace key={room.id} room={room} onMouseMoove={setActiveRoom}/>);
+
 
   return (
     <div className="page page--gray page--main">
@@ -94,7 +97,7 @@ function MainPage({placeCount}: MainPageProps): JSX.Element {
                     <use xlinkHref="#icon-arrow-select"></use>
                   </svg>
                 </span>
-                <ul className="places__options places__options--custom places__options--opened">
+                <ul className="places__options places__options--custom">
                   <li className="places__option places__option--active" tabIndex={0}>Popular</li>
                   <li className="places__option" tabIndex={0}>Price: low to high</li>
                   <li className="places__option" tabIndex={0}>Price: high to low</li>

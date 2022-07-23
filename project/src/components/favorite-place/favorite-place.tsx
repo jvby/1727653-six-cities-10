@@ -1,16 +1,15 @@
-import { RoomType } from '../../types/room';
+import {RoomType} from '../../types/room';
 import { Link } from 'react-router-dom';
 
-type CardPlaceProps = {
+type FavoriteProps = {
   room: RoomType;
-  onMouseMoove: (roomID: number | null) => void;
-}
+};
 
 type Style = {
   width: string;
 }
 
-export function CardPlace({room, onMouseMoove}: CardPlaceProps): JSX.Element {
+export function FavoritePlace({room}: FavoriteProps): JSX.Element {
 
   const getRating = (): Style => {
     if (room.rating === 5){
@@ -33,42 +32,28 @@ export function CardPlace({room, onMouseMoove}: CardPlaceProps): JSX.Element {
     }
   };
 
-  const handleMouseOver = () => {
-    onMouseMoove(room.id);
-  };
-
-  const handleMouseLeave = () => {
-    onMouseMoove(null);
-  };
-
-
   return (
-    <article className="cities__card place-card" onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave}>
+    <article className="favorites__card place-card">
       {room.isPremium &&
       <div className="place-card__mark">
         <span>Premium</span>
       </div>}
-      <div className="cities__image-wrapper place-card__image-wrapper">
+      <div className="favorites__image-wrapper place-card__image-wrapper">
         <Link to={`/offer/${room.id}`}>
-          <img className="place-card__image" src={room.previewImage} width="260" height="200" alt="Place"/>
+          <img className="place-card__image" src={room.previewImage} width="150" height="110" alt="Place"/>
         </Link>
       </div>
-      <div className="place-card__info">
+      <div className="favorites__card-info place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">&euro;{room.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className={room.isFavorite ?
-            'place-card__bookmark-button place-card__bookmark-button--active button'
-            :
-            'place-card__bookmark-button button'}
-          type="button"
-          >
+          <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
-            <span className="visually-hidden">To bookmarks</span>
+            <span className="visually-hidden">In bookmarks</span>
           </button>
         </div>
         <div className="place-card__rating rating">
@@ -83,5 +68,6 @@ export function CardPlace({room, onMouseMoove}: CardPlaceProps): JSX.Element {
         <p className="place-card__type">{room.type}</p>
       </div>
     </article>
+
   );
 }
