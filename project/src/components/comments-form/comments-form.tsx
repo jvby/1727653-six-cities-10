@@ -1,90 +1,95 @@
-import { CommentType } from '../../types/comment';
-import {useState, ChangeEvent} from 'react';
+import React, {useState, ChangeEvent} from 'react';
+import { Fragment } from 'react';
+
+type CommentFormType = {
+  comment: string;
+  rating: string;
+}
+
+type Ratings = {
+  rating: number;
+  title: string;
+}
 
 export function CommentsForm(): JSX.Element {
+  const ratings: Ratings[] = [
+    {
+      rating: 5,
+      title: 'perfect',
+    },
+    {
+      rating: 4,
+      title: 'good',
+    },
+    {
+      rating: 3,
+      title: 'not bad',
+    },
+    {
+      rating: 2,
+      title: 'badly',
+    },
+    {
+      rating: 1,
+      title: 'terribly',
+    },
+  ];
 
-  const [formData, setFormData] = useState<CommentType>({
+  const [formData, setFormData] = useState<CommentFormType>({
     comment: '',
-    date: '2022-05-25T12:25:36.939Z',
-    id: 0,
-    rating: 0,
-    user: {
-      avatarUrl: 'https://10.react.pages.academy/static/avatar/9.jpg',
-      id: 0,
-      isPro: false,
-      name: 'Sophie',
-    }
+    rating: '',
   });
 
-  const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    setFormData({...formData, rating: parseInt(evt.target.value, 10)});
+  const handleFormChange = (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = evt.target;
+    setFormData({...formData, [name]: value});
   };
 
-  const handleTextCommentChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
-    setFormData({...formData, comment: evt.target.value});
-  };
+  const hasCommentEnoughLength = formData.comment.length >= 50 && formData.comment.length <= 300;
+  const isSubmitDisabled = hasCommentEnoughLength || formData.rating === '';
 
-  const isSubmitDisabled = () => {
-    if (formData.comment === '' || formData.rating === 0) {
-      return true;
-    }
-    return false;
-  };
+  const renderStars = ratings.map((rating, index) => (
+    <Fragment key={`rating-${rating.rating}`}>
+      <input
+        className="form__rating-input visually-hidden"
+        name="rating"
+        value={rating.rating}
+        id={`${rating.rating}-stars`}
+        type="radio"
+        onChange={handleFormChange}
+      />
+      <label
+        htmlFor={`${rating.rating}-stars`}
+        className="reviews__rating-label form__rating-label"
+        title={rating.title}
+      >
+        <svg className="form__star-image" width="37" height="33">
+          <use xlinkHref="#icon-star"></use>
+        </svg>
+      </label>
+    </Fragment>
+  ));
 
 
   return(
     <form className="reviews__form form" action="#" method="post">
-      <label className="reviews__label form__label" htmlFor="review">Your review</label>
-      <div className="reviews__rating-form form__rating" onChange={handleRatingChange}>
-        <input className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio"/>
-        <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden" name="rating" value="4" id="4-stars" type="radio"/>
-        <label htmlFor="4-stars" className="reviews__rating-label form__rating-label" title="good">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden" name="rating" value="3" id="3-stars" type="radio"/>
-        <label htmlFor="3-stars" className="reviews__rating-label form__rating-label" title="not bad">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden" name="rating" value="2" id="2-stars" type="radio"/>
-        <label htmlFor="2-stars" className="reviews__rating-label form__rating-label" title="badly">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden" name="rating" value="1" id="1-star" type="radio"/>
-        <label htmlFor="1-star" className="reviews__rating-label form__rating-label" title="terribly">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
+      <label className="reviews__label form__label" htmlFor="comment">Your review</label>
+      <div className="reviews__rating-form form__rating">
+        {renderStars}
       </div>
       <textarea
         className="reviews__textarea form__textarea"
-        id="review"
-        name="review"
+        id="comment"
+        name="comment"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        onChange={handleTextCommentChange}
-      >
-      </textarea>
+        onChange={handleFormChange}
+      />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star"> rating </span> and describe your stay with at least
           <b className="reviews__text-amount"> 50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={isSubmitDisabled()}>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={isSubmitDisabled}>Submit</button>
       </div>
     </form>
   );

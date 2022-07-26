@@ -5,7 +5,7 @@ import RoomPage from '../../pages/room-page/room-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PrivateRoute from '../private-route/private-route';
-import { AuthorizationStatus } from '../../const';
+import { AuthorizationStatus, AppRoute } from '../../const';
 import { RoomType } from '../../types/room';
 import { CommentType } from '../../types/comment';
 
@@ -19,16 +19,16 @@ function App({rooms, comments}: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<MainPage rooms={rooms} />} />
-        <Route path='/login' element={<LoginPage />} />
-        <Route path='/favorites' element={
+        <Route path={AppRoute.Main} element={<MainPage rooms={rooms} />} />
+        <Route path={AppRoute.Login} element={<LoginPage />} />
+        <Route path={AppRoute.Favorites} element={
           <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
             <FavoritesPage rooms={rooms}/>
           </PrivateRoute>
         }
         />
-        <Route path='/offer/:id' element={<RoomPage rooms={rooms} comments={comments}/>} />
-        <Route path="*" element={<NotFoundPage />} />
+        <Route path={AppRoute.Offer} element={<RoomPage rooms={rooms} comments={comments}/>} />
+        <Route path={AppRoute.NotFound} element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
