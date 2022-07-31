@@ -64,7 +64,7 @@ function RoomPage({rooms, comments}: RoomPageProps): JSX.Element {
               <Comments comments={comments} />
             </div>
           </div>
-          <PlacesMap from={'place'}/>
+          <PlacesMap from={'place'} rooms={rooms} activeRoom={roomToRender?.id} activeCity={roomToRender?.city}/>
         </section>
         <div className="container">
           <NearPlaces/>

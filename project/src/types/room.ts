@@ -18,7 +18,7 @@ export type RoomType = {
   type: string
 }
 
-type Location = {
+export type Location = {
   latitude: number
   longitude: number
   zoom: number
@@ -31,7 +31,7 @@ export type Host = {
   name: string
 }
 
-type City = {
+export type City = {
   location: Location
   name: string
 }

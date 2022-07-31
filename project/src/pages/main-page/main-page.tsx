@@ -12,6 +12,7 @@ type MainPageProps = {
 
 function MainPage({rooms}: MainPageProps): JSX.Element {
   const [activeRoom, setActiveRoom] = useState<number | null>(null);
+  const activeCity = rooms[1].city;
 
   const updateActiveRoom = (newActiveRoom: number | null) => {
     if (activeRoom !== newActiveRoom) {
@@ -38,7 +39,7 @@ function MainPage({rooms}: MainPageProps): JSX.Element {
               </div>
             </section>
             <div className="cities__right-section">
-              <PlacesMap from={'main'}/>
+              <PlacesMap from={'main'} rooms={rooms} activeRoom={activeRoom} activeCity={activeCity}/>
             </div>
           </div>
         </div>

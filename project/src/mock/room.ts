@@ -28,8 +28,8 @@ export const rooms: RoomType[] = [
     'isFavorite': true,
     'isPremium': false,
     'location': {
-      'latitude': 52.35514938496378,
-      'longitude': 4.673877537499948,
+      'latitude': 52.3909553943508,
+      'longitude': 4.85309666406198,
       'zoom': 8
     },
     'maxAdults': 4,
@@ -47,7 +47,7 @@ export const rooms: RoomType[] = [
         'longitude': 4.895168,
         'zoom': 10
       },
-      'name': 'Paris'
+      'name': 'Amsterdam'
     },
     'description': 'Paris is one of the most visited cities in the world.',
     'goods': [
@@ -67,8 +67,8 @@ export const rooms: RoomType[] = [
     'isFavorite': true,
     'isPremium': true,
     'location': {
-      'latitude': 52.35514938496378,
-      'longitude': 4.673877537499948,
+      'latitude': 52.369553943508,
+      'longitude': 4.85309666406198,
       'zoom': 8
     },
     'maxAdults': 3,
@@ -86,7 +86,7 @@ export const rooms: RoomType[] = [
         'longitude': 4.895168,
         'zoom': 10
       },
-      'name': 'Cologne'
+      'name': 'Amsterdam'
     },
     'description': 'The city of Cologne is the fourth-largest city in Germany.',
     'goods': [
@@ -108,8 +108,8 @@ export const rooms: RoomType[] = [
     'isFavorite': false,
     'isPremium': false,
     'location': {
-      'latitude': 52.35514938496378,
-      'longitude': 4.673877537499948,
+      'latitude': 52.3909553943508,
+      'longitude': 4.929309666406198,
       'zoom': 8
     },
     'maxAdults': 2,
@@ -127,7 +127,7 @@ export const rooms: RoomType[] = [
         'longitude': 4.895168,
         'zoom': 10
       },
-      'name': 'Brussels'
+      'name': 'Amsterdam'
     },
     'description': 'The capital of Belgium is a great place to go for a holiday or weekend break.',
     'goods': [
@@ -149,8 +149,8 @@ export const rooms: RoomType[] = [
     'isFavorite': false,
     'isPremium': true,
     'location': {
-      'latitude': 52.35514938496378,
-      'longitude': 4.673877537499948,
+      'latitude': 52.3809553943508,
+      'longitude': 4.939309666406198,
       'zoom': 8
     },
     'maxAdults': 1,
