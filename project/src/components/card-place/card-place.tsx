@@ -26,11 +26,13 @@ export function CardPlace({room, onMouseMove, from}: CardPlaceProps): JSX.Elemen
   const articleClass = cn('place-card', {
     'cities__card': from === 'main',
     'favorites__card': from === 'favorites',
+    'near-places__card': from === 'near',
   });
 
   const imageWrapperClass = cn('place-card__image-wrapper', {
     'cities__image-wrapper': from === 'main',
-    'favorites__image-wrapper': from === 'favorites'
+    'favorites__image-wrapper': from === 'favorites',
+    'near-places__image-wrapper': from === 'near',
   });
 
   const cardInfoClass = cn('place-card__info', {
@@ -43,6 +45,8 @@ export function CardPlace({room, onMouseMove, from}: CardPlaceProps): JSX.Elemen
         return '260';
       case 'favorites':
         return '150';
+      case 'near':
+        return '260';
       default:
         break;
     }
@@ -54,6 +58,8 @@ export function CardPlace({room, onMouseMove, from}: CardPlaceProps): JSX.Elemen
         return '200';
       case 'favorites':
         return '110';
+      case 'near':
+        return '200';
       default:
         break;
     }

@@ -39,7 +39,7 @@ function MainPage({rooms}: MainPageProps): JSX.Element {
               </div>
             </section>
             <div className="cities__right-section">
-              <PlacesMap from={'main'} rooms={rooms} activeRoom={activeRoom} activeCity={activeCity}/>
+              <PlacesMap from='main' rooms={rooms} activeRoom={activeRoom} activeCity={activeCity}/>
             </div>
           </div>
         </div>
