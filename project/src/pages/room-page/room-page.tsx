@@ -21,6 +21,7 @@ type RoomPageProps = {
 function RoomPage({rooms, comments}: RoomPageProps): JSX.Element {
   const params = useParams();
   const roomToRender = rooms.find((room) => room.id.toString() === params.id);
+  const nearToRender = rooms.filter((room) => room.id.toString() !== params.id);
 
   return (
     <div className="page">
@@ -64,10 +65,10 @@ function RoomPage({rooms, comments}: RoomPageProps): JSX.Element {
               <Comments comments={comments} />
             </div>
           </div>
-          <PlacesMap from={'place'} rooms={rooms} activeRoom={roomToRender?.id} activeCity={roomToRender?.city}/>
+          <PlacesMap from='place' rooms={rooms} activeRoom={roomToRender?.id} activeCity={roomToRender?.city}/>
         </section>
         <div className="container">
-          <NearPlaces/>
+          <NearPlaces rooms={nearToRender}/>
         </div>
       </main>
     </div>
