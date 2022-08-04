@@ -19,7 +19,7 @@ function App({rooms, comments}: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppRoute.Main} element={<MainPage rooms={rooms} />} />
+        <Route path={AppRoute.Main} element={<MainPage/>} />
         <Route path={AppRoute.Login} element={<LoginPage />} />
         <Route path={AppRoute.Favorites} element={
           <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>

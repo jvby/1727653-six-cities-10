@@ -1,7 +1,7 @@
 import { useEffect, useState, MutableRefObject, useRef } from 'react';
 import { Map, TileLayer } from 'leaflet';
 import { City } from '../../types/room';
-import { MapParamenters } from '../../const';
+import { MapParameters } from '../../const';
 
 
 function useMap(
@@ -23,10 +23,10 @@ function useMap(
       });
 
       const layer = new TileLayer(
-        MapParamenters.Layer,
+        MapParameters.Layer,
         {
           attribution:
-        MapParamenters.Attribution,
+        MapParameters.Attribution,
         }
       );
 

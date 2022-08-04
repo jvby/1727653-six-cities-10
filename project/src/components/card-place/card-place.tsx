@@ -13,6 +13,13 @@ type CardPlaceProps = {
   from: string;
 }
 
+type ImageSizeType = {
+  [key: string]: {
+    width: string,
+    height: string,
+  }
+}
+
 export function CardPlace({room, onMouseMove, from}: CardPlaceProps): JSX.Element {
 
   const handleMouseOver = () => {
@@ -39,30 +46,19 @@ export function CardPlace({room, onMouseMove, from}: CardPlaceProps): JSX.Elemen
     'favorites__card-info': from === 'favorites'
   });
 
-  const imageWidth = (source: string) => {
-    switch (source) {
-      case 'place':
-        return '260';
-      case 'favorites':
-        return '150';
-      case 'near':
-        return '260';
-      default:
-        break;
-    }
-  };
-
-  const imageHeight = (source: string) => {
-    switch (source) {
-      case 'place':
-        return '200';
-      case 'favorites':
-        return '110';
-      case 'near':
-        return '200';
-      default:
-        break;
-    }
+  const imageSize: ImageSizeType = {
+    'near': {
+      width: '260',
+      height: '200',
+    },
+    'favorites': {
+      width: '150',
+      height: '110',
+    },
+    'main': {
+      width: '260',
+      height: '200',
+    },
   };
 
 
@@ -71,7 +67,7 @@ export function CardPlace({room, onMouseMove, from}: CardPlaceProps): JSX.Elemen
       <RoomMarks isPremium={room.isPremium} from={'card-place'}/>
       <div className={imageWrapperClass}>
         <Link to={generatePath(AppRoute.Offer, {id: `${room.id}`})}>
-          <img className="place-card__image" src={room.previewImage} width={imageWidth(from)} height={imageHeight(from)} alt="Place"/>
+          <img className="place-card__image" src={room.previewImage} width={imageSize[from].width} height={imageSize[from].height} alt="Place"/>
         </Link>
       </div>
       <div className={cardInfoClass}>

@@ -21,7 +21,7 @@ type RoomPageProps = {
 function RoomPage({rooms, comments}: RoomPageProps): JSX.Element {
   const params = useParams();
   const roomToRender = rooms.find((room) => room.id.toString() === params.id);
-  const nearToRender = rooms.filter((room) => room.id.toString() !== params.id);
+  const nearToRender = rooms.filter((room) => room.id.toString() !== params.id).slice(0, 3);
 
   return (
     <div className="page">
