@@ -11,8 +11,8 @@ import { defaultCity } from '../../const';
 
 
 function MainPage(): JSX.Element {
-  const rooms = useAppSelector((state) => state.filtredRooms);
   const currentCity = useAppSelector((state) => state.city);
+  const rooms = useAppSelector((state) => state.rooms).filter((room) => room.city.name === currentCity);
   const [activeRoom, setActiveRoom] = useState<number | null>(null);
   const activeCity = defaultCity;
 
