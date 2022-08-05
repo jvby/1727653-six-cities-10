@@ -1,39 +1,34 @@
+import { CITIES } from '../../const';
+import {useAppSelector, useAppDispatch} from '../../hooks';
+import { changeCity } from '../../store/action';
+import cn from 'classnames';
 
 export function CityTab(): JSX.Element {
+  const activeCity = useAppSelector((state) => state.city);
+  const dispatch = useAppDispatch();
+
+  const renderCitiesList = () => CITIES.map((city: string) => (
+    <li key={`city-${city}`}className="locations__item">
+      <a
+        className={cn('locations__item-link tabs__item', {
+          'tabs__item--active': city === activeCity
+        })}
+        onClick={(evt) => {
+          evt.preventDefault();
+          dispatch(changeCity(city));
+        }}
+        href="/#"
+      >
+        <span>{city}</span>
+      </a>
+    </li>
+  ));
+
   return (
     <div className="tabs">
       <section className="locations container">
         <ul className="locations__list tabs__list">
-          <li className="locations__item">
-            <a className="locations__item-link tabs__item" href="/#">
-              <span>Paris</span>
-            </a>
-          </li>
-          <li className="locations__item">
-            <a className="locations__item-link tabs__item" href="/#">
-              <span>Cologne</span>
-            </a>
-          </li>
-          <li className="locations__item">
-            <a className="locations__item-link tabs__item" href="/#">
-              <span>Brussels</span>
-            </a>
-          </li>
-          <li className="locations__item">
-            <a className="locations__item-link tabs__item tabs__item--active" href="/#">
-              <span>Amsterdam</span>
-            </a>
-          </li>
-          <li className="locations__item">
-            <a className="locations__item-link tabs__item" href="/#">
-              <span>Hamburg</span>
-            </a>
-          </li>
-          <li className="locations__item">
-            <a className="locations__item-link tabs__item" href="/#">
-              <span>Dusseldorf</span>
-            </a>
-          </li>
+          {renderCitiesList()}
         </ul>
       </section>
     </div>

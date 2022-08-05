@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
 import { rooms } from './mock/room';
 import { comments } from './mock/comment';
+import { Provider } from 'react-redux';
+import { store } from './store';
 
 
 const root = ReactDOM.createRoot(
@@ -11,9 +13,11 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App
-      rooms={rooms}
-      comments={comments}
-    />
+    <Provider store = {store}>
+      <App
+        rooms={rooms}
+        comments={comments}
+      />
+    </Provider>
   </React.StrictMode>,
 );
