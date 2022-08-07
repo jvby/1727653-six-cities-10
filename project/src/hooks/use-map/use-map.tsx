@@ -13,7 +13,6 @@ function useMap(
 
   useEffect(() => {
     if (mapRef.current !== null && !isRenderedRef.current) {
-      map && map.remove();
       const instance = new Map(mapRef.current, {
         center: {
           lat: city.location.latitude,
@@ -35,7 +34,7 @@ function useMap(
 
       setMap(instance);
     }
-  }, [mapRef, map, city]);
+  }, [mapRef, city]);
 
   return map;
 }

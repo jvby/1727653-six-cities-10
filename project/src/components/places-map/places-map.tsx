@@ -55,8 +55,20 @@ export function PlacesMap({from, rooms, activeRoom, activeCity = defaultCity}: P
           )
           .addTo(map);
       });
+
+      map.flyTo(
+        {
+          lat: activeCity.location.latitude,
+          lng: activeCity.location.longitude
+        },
+        activeCity.location.zoom,
+        {
+          animate: false,
+        }
+      );
     }
   }, [map, rooms, activeRoom, activeCity]);
+
 
   const mapClass = cn('map', {
     'cities__map': from === 'main',

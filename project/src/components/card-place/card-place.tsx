@@ -47,15 +47,15 @@ export function CardPlace({room, onMouseMove, from}: CardPlaceProps): JSX.Elemen
   });
 
   const imageSize: ImageSizeType = {
-    'near': {
+    near: {
       width: '260',
       height: '200',
     },
-    'favorites': {
+    favorites: {
       width: '150',
       height: '110',
     },
-    'main': {
+    main: {
       width: '260',
       height: '200',
     },

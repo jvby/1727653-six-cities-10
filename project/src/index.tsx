@@ -5,6 +5,9 @@ import { rooms } from './mock/room';
 import { comments } from './mock/comment';
 import { Provider } from 'react-redux';
 import { store } from './store';
+import { fetchRooms } from './store/api-actions';
+
+store.dispatch(fetchRooms());
 
 
 const root = ReactDOM.createRoot(
