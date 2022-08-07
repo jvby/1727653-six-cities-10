@@ -7,15 +7,29 @@ import { PlacesMap } from '../../components/places-map/places-map';
 import {useAppSelector} from '../../hooks';
 import {EmptyPlaces} from '../../components/places-empty/places-empty';
 import cn from 'classnames';
-import { defaultCity } from '../../const';
-
+import LoadingScreen from '../../components/loading-screen/loading-screen';
+import { ErrorScreen } from '../../components/error-screen/error-screen';
 
 function MainPage(): JSX.Element {
   const currentCity = useAppSelector((state) => state.city);
   const rooms = useAppSelector((state) => state.rooms).filter((room) => room.city.name === currentCity);
   const [activeRoom, setActiveRoom] = useState<number | null>(null);
-  const activeCity = defaultCity;
   const activeSortType = useAppSelector((state) => state.sortType);
+  const requestStatus = useAppSelector((state) => state.roomRequestStatus);
+
+  if (['idle', 'request'].includes(requestStatus)){
+    return (
+      <LoadingScreen/>
+    );
+  }
+
+  if (['error'].includes(requestStatus)){
+    return (
+      <ErrorScreen/>
+    );
+  }
+
+  const activeCity = rooms[1].city;
 
   const getSortedRooms = () => {
     switch (activeSortType) {
@@ -67,7 +81,7 @@ function MainPage(): JSX.Element {
                 </div>
               </section>}
             <div className="cities__right-section">
-              {sortedRooms.length !== 0 && <PlacesMap from='main' rooms={sortedRooms} activeRoom={activeRoom} activeCity={activeCity}/>}
+              {sortedRooms.length !== 0 && <PlacesMap from='main' rooms={rooms} activeRoom={activeRoom} activeCity={activeCity}/>}
             </div>
           </div>
         </div>
