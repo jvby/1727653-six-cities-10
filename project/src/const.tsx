@@ -36,5 +36,12 @@ export enum APIRoute {
   Favorites = '/favorite',
   Comments = '/comments',
   Login = '/login',
+  Logout = '/logout',
 }
 
+export enum RoomRequestStatus {
+  idle = 'idle',
+  request = 'request',
+  success = 'success',
+  error = 'error',
+}
