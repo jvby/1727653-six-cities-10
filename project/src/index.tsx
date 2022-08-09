@@ -5,9 +5,13 @@ import { rooms } from './mock/room';
 import { comments } from './mock/comment';
 import { Provider } from 'react-redux';
 import { store } from './store';
-import { fetchRooms } from './store/api-actions';
+import { checkAuthAction, fetchRooms } from './store/api-actions';
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 store.dispatch(fetchRooms());
+store.dispatch(checkAuthAction());
 
 
 const root = ReactDOM.createRoot(
@@ -17,6 +21,19 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store = {store}>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      {/* Same as */}
+      <ToastContainer />
       <App
         rooms={rooms}
         comments={comments}
