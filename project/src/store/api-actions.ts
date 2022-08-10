@@ -3,7 +3,7 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/store';
 import { RoomType } from '../types/room';
 import { APIRoute, AuthorizationStatus } from '../const';
-import { loadRoomsData, loadRoomsFailure, loadRoomsRequest, requireAuthorization } from './action';
+import { loadRoomsData, loadRoomsFailure, loadRoomsRequest, requireAuthorization, setLoginName } from './action';
 import { UserData } from '../types/user-data';
 import { dropToken, saveToken } from '../token';
 import { AuthData } from '../types/auth-data';
@@ -52,6 +52,7 @@ export const loginAction = createAsyncThunk<void, AuthData, {
     const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
     saveToken(token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    dispatch(setLoginName(email));
   },
 );
 
@@ -65,6 +66,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     await api.delete(APIRoute.Logout);
     dropToken();
     dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    dispatch(setLoginName(null));
   },
 );
 

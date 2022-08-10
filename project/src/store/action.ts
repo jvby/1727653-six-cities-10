@@ -15,4 +15,4 @@ export const loadRoomsFailure = createAction('offers/loadRoomsFailure');
 
 export const requireAuthorization = createAction<AuthorizationStatus>('offers/requireAuthorization');
 
-export const setError = createAction<string | null>('offers/setError');
+export const setLoginName = createAction<string | null>('offers/setLoginName');

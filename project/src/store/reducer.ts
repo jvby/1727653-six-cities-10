@@ -9,14 +9,16 @@ import {
   loadRoomsFailure,
   loadRoomsRequest,
   requireAuthorization,
+  setLoginName,
 } from './action';
 
 type InitialState = {
   city: string,
   rooms: RoomType[],
   sortType: string,
-  roomRequestStatus: RoomRequestStatus
-  authorizationStatus: AuthorizationStatus
+  roomRequestStatus: RoomRequestStatus,
+  authorizationStatus: AuthorizationStatus,
+  loginName: string | null,
 };
 
 const initialState: InitialState = {
@@ -25,6 +27,7 @@ const initialState: InitialState = {
   sortType: 'Popular',
   roomRequestStatus: RoomRequestStatus.idle,
   authorizationStatus: AuthorizationStatus.Unknown,
+  loginName: null,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -50,6 +53,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
+    })
+    .addCase(setLoginName, (state, action) => {
+      state.loginName = action.payload;
     });
 });
 

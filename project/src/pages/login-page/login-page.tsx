@@ -31,9 +31,9 @@ function LoginPage(): JSX.Element {
 
     if (loginRef.current !== null && passwordRef.current !== null) {
       const password = passwordRef.current.value;
-      const passwordMask = new RegExp ('[^]');
+      const passwordMask = /^\S*$/;
 
-      if (passwordMask.test(password)) {
+      if (!passwordMask.test(password)) {
         toast.warn('Password cannot be empty', {
           position: 'top-right',
           autoClose: 5000,
@@ -43,13 +43,13 @@ function LoginPage(): JSX.Element {
           draggable: true,
           progress: undefined,
         });
-        return;
       }
-
-      onSubmit({
-        login: loginRef.current.value,
-        password: passwordRef.current.value,
-      });
+      else {
+        onSubmit({
+          login: loginRef.current.value,
+          password: passwordRef.current.value,
+        });
+      }
     }
   };
 

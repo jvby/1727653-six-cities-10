@@ -10,7 +10,6 @@ import { RoomType } from '../../types/room';
 import { CommentType } from '../../types/comment';
 import { useAppSelector } from '../../hooks';
 
-
 type AppProps = {
   rooms: RoomType[];
   comments: CommentType[];
