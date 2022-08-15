@@ -14,3 +14,9 @@ type User = {
   isPro: boolean
   name: string
 }
+
+export type CommentData = {
+  comment: string
+  rating: number
+  roomID: number | undefined
+}

@@ -1,6 +1,4 @@
-import { RoomType } from '../../types/room';
 import { useParams } from 'react-router-dom';
-import { CommentType } from '../../types/comment';
 import { Header } from '../../components/header/header';
 import { PlacesMap } from '../../components/places-map/places-map';
 import { NearPlaces } from '../../components/near-places/near-places';
@@ -12,16 +10,41 @@ import { RoomMarks } from '../../components/room-marks/room-marks';
 import { FavoriteButton } from '../../components/favorite-button/favorite-button';
 import { RoomHost } from '../../components/room-host/room-host';
 import style from './room-page.module.css';
+import { fetchActiveRoom, fetchComments, fetchNearRooms } from '../../store/api-actions';
+import { RoomRequestStatus } from '../../const';
+import LoadingScreen from '../../components/loading-screen/loading-screen';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useEffect } from 'react';
+import NotFoundPage from '../not-found-page/not-found-page';
 
-type RoomPageProps = {
-  rooms: RoomType[];
-  comments: CommentType[];
-}
-
-function RoomPage({rooms, comments}: RoomPageProps): JSX.Element {
+function RoomPage(): JSX.Element {
   const params = useParams();
-  const roomToRender = rooms.find((room) => room.id.toString() === params.id);
-  const nearToRender = rooms.filter((room) => room.id.toString() !== params.id).slice(0, 3);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchActiveRoom(params.id));
+    dispatch(fetchNearRooms(params.id));
+    dispatch(fetchComments(params.id));
+  }, [params, dispatch]);
+
+  const nearRooms = useAppSelector((state) => state.nearRoomData);
+  const roomToRender = useAppSelector((state) => state.activeRoomData);
+  const roomRequestStatus = useAppSelector((state) => state.activeRoomRequestStatus);
+  const commetsPostStatus = useAppSelector((state) => state.postCommentRequest);
+
+  if ([RoomRequestStatus.idle, RoomRequestStatus.request]
+    .includes(roomRequestStatus) ||
+    RoomRequestStatus.request.includes(commetsPostStatus)){
+    return (
+      <LoadingScreen/>
+    );
+  }
+
+  if ([RoomRequestStatus.error].includes(roomRequestStatus)){
+    return (
+      <NotFoundPage/>
+    );
+  }
 
   return (
     <div className="page">
@@ -62,13 +85,13 @@ function RoomPage({rooms, comments}: RoomPageProps): JSX.Element {
               </div>
               <RoomGoods goods={roomToRender?.goods}/>
               <RoomHost host={roomToRender?.host} description={roomToRender?.description}/>
-              <Comments comments={comments} />
+              <Comments/>
             </div>
           </div>
-          <PlacesMap from='place' rooms={rooms} activeRoom={roomToRender?.id} activeCity={roomToRender?.city}/>
+          <PlacesMap from='place' rooms={nearRooms} activeRoom={roomToRender} activeCity={roomToRender?.city}/>
         </section>
         <div className="container">
-          <NearPlaces rooms={nearToRender}/>
+          <NearPlaces/>
         </div>
       </main>
     </div>

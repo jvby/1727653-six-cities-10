@@ -13,13 +13,13 @@ export enum AppRoute {
   NotFound = '*',
 }
 
-export const defaultCity = {
+export const DefaultCity = {
   'location': {
-    'latitude': 52.370216,
-    'longitude': 4.895168,
-    'zoom': 10,
+    'latitude': 48.85661,
+    'longitude': 2.351499,
+    'zoom': 13,
   },
-  'name': 'Amsterdam'
+  'name': 'Paris'
 };
 
 export enum MapParameters {
@@ -45,3 +45,4 @@ export enum RoomRequestStatus {
   success = 'success',
   error = 'error',
 }
+
