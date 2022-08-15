@@ -9,6 +9,7 @@ import {EmptyPlaces} from '../../components/places-empty/places-empty';
 import cn from 'classnames';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
 import { ErrorScreen } from '../../components/error-screen/error-screen';
+import { RoomRequestStatus } from '../../const';
 
 function MainPage(): JSX.Element {
   const currentCity = useAppSelector((state) => state.city);
@@ -17,13 +18,13 @@ function MainPage(): JSX.Element {
   const activeSortType = useAppSelector((state) => state.sortType);
   const requestStatus = useAppSelector((state) => state.roomRequestStatus);
 
-  if (['idle', 'request'].includes(requestStatus)){
+  if ([RoomRequestStatus.idle, RoomRequestStatus.request].includes(requestStatus)){
     return (
       <LoadingScreen/>
     );
   }
 
-  if (['error'].includes(requestStatus)){
+  if ([RoomRequestStatus.error].includes(requestStatus)){
     return (
       <ErrorScreen/>
     );

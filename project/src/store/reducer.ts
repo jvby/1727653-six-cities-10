@@ -1,20 +1,33 @@
 import { createReducer } from '@reduxjs/toolkit';
+import { AuthorizationStatus, RoomRequestStatus } from '../const';
 import { rooms } from '../mock/room';
 import { RoomType } from '../types/room';
-import { changeCity, changeSortType, loadRoomsData, loadRoomsFailure, loadRoomsRequest } from './action';
+import {
+  changeCity,
+  changeSortType,
+  loadRoomsData,
+  loadRoomsFailure,
+  loadRoomsRequest,
+  requireAuthorization,
+  setLoginName,
+} from './action';
 
 type InitialState = {
   city: string,
   rooms: RoomType[],
   sortType: string,
-  roomRequestStatus: 'idle' | 'request' | 'success' | 'error'
+  roomRequestStatus: RoomRequestStatus,
+  authorizationStatus: AuthorizationStatus,
+  loginName: string | null,
 };
 
 const initialState: InitialState = {
   city: 'Paris',
   rooms,
   sortType: 'Popular',
-  roomRequestStatus: 'idle'
+  roomRequestStatus: RoomRequestStatus.idle,
+  authorizationStatus: AuthorizationStatus.Unknown,
+  loginName: null,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -30,13 +43,19 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(loadRoomsData, (state, action) => {
       const roomsFromServer = action.payload;
       state.rooms = roomsFromServer;
-      state.roomRequestStatus = 'success';
+      state.roomRequestStatus = RoomRequestStatus.success;
     })
     .addCase(loadRoomsRequest, (state) => {
-      state.roomRequestStatus = 'request';
+      state.roomRequestStatus = RoomRequestStatus.request;
     })
     .addCase(loadRoomsFailure, (state) => {
-      state.roomRequestStatus = 'error';
+      state.roomRequestStatus = RoomRequestStatus.error;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(setLoginName, (state, action) => {
+      state.loginName = action.payload;
     });
 });
 
