@@ -1,17 +1,45 @@
-import React, {useState, ChangeEvent} from 'react';
+import React, {useState, ChangeEvent, FormEvent} from 'react';
 import { Fragment } from 'react';
-
-type CommentFormType = {
-  comment: string;
-  rating: string;
-}
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { postComment } from '../../store/api-actions';
 
 type Ratings = {
   rating: number;
   title: string;
 }
 
+type CommentState = {
+  value: string
+  error: boolean;
+  minSize: number;
+  maxSize: number;
+}
+type RatingState = {
+  value: number
+  isChecked: boolean;
+}
+
+type CommentsStateProps = {
+  comment: CommentState;
+  rating: RatingState;
+}
+
+const initialFormState = {
+  comment: {
+    value: '',
+    error: true,
+    minSize: 50,
+    maxSize: 300,
+  },
+  rating: {
+    value: 0,
+    isChecked: false,
+  },
+};
+
 export function CommentsForm(): JSX.Element {
+  const currentCity = useAppSelector((state) => state.activeRoomData);
+  const dispatch = useAppDispatch();
   const ratings: Ratings[] = [
     {
       rating: 5,
@@ -35,20 +63,54 @@ export function CommentsForm(): JSX.Element {
     },
   ];
 
-  const [formData, setFormData] = useState<CommentFormType>({
-    comment: '',
-    rating: '',
-  });
+  const [formData, setFormData] = useState<CommentsStateProps>(initialFormState);
 
-  const handleFormChange = (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = evt.target;
-    setFormData({...formData, [name]: value});
+  const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const { value } = evt.target;
+    const rating = parseInt(value, 10);
+
+    const isRatingValid = rating > 0 || rating <= 5;
+
+    setFormData({
+      ...formData,
+      rating: {
+        ...formData.rating,
+        value: rating,
+        isChecked: isRatingValid,
+      }
+    });
   };
 
-  const hasCommentEnoughLength = formData.comment.length >= 50 && formData.comment.length <= 300;
-  const isSubmitDisabled = hasCommentEnoughLength || formData.rating === '';
+  const handleCommentChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = evt.target;
+    const hasCommentEnoughLength = value.length >= formData.comment.minSize && value.length <= formData.comment.maxSize;
 
-  const renderStars = ratings.map((rating, index) => (
+    setFormData({
+      ...formData,
+      comment: {
+        ...formData.comment,
+        value: value,
+        error: !hasCommentEnoughLength,
+      }
+    });
+  };
+
+  const resetFormValue = () => setFormData(initialFormState);
+
+
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    dispatch(postComment({
+      roomID: currentCity?.id,
+      rating: formData.rating.value,
+      comment: formData.comment.value,
+      onSuccess: resetFormValue
+    }));
+  };
+
+  const isSubmitDisabled = !formData.rating.isChecked || formData.comment.error;
+
+  const renderStars = ratings.map((rating) => (
     <Fragment key={`rating-${rating.rating}`}>
       <input
         className="form__rating-input visually-hidden"
@@ -56,7 +118,8 @@ export function CommentsForm(): JSX.Element {
         value={rating.rating}
         id={`${rating.rating}-stars`}
         type="radio"
-        onChange={handleFormChange}
+        onChange={handleRatingChange}
+        checked={rating.rating === formData.rating.value}
       />
       <label
         htmlFor={`${rating.rating}-stars`}
@@ -71,8 +134,13 @@ export function CommentsForm(): JSX.Element {
   ));
 
 
-  return(
-    <form className="reviews__form form" action="#" method="post">
+  return (
+    <form
+      className="reviews__form form"
+      action="#"
+      method="post"
+      onSubmit={handleSubmit}
+    >
       <label className="reviews__label form__label" htmlFor="comment">Your review</label>
       <div className="reviews__rating-form form__rating">
         {renderStars}
@@ -82,7 +150,8 @@ export function CommentsForm(): JSX.Element {
         id="comment"
         name="comment"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        onChange={handleFormChange}
+        onChange={handleCommentChange}
+        value={formData.comment.value}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">

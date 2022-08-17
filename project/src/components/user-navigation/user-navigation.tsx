@@ -6,7 +6,7 @@ import { store } from '../../store';
 import { logoutAction } from '../../store/api-actions';
 
 export function UserNavigation(): JSX.Element {
-  const loginName = useAppSelector((state) => state.loginName);
+  const loggedUser = useAppSelector((state) => state.loggedUser);
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const navigate = useNavigate();
 
@@ -19,8 +19,9 @@ export function UserNavigation(): JSX.Element {
             <li className="header__nav-item user">
               <a className="header__nav-link header__nav-link--profile" href="/#">
                 <div className="header__avatar-wrapper user__avatar-wrapper">
+                  <img className="header__avatar user__avatar" src={loggedUser?.avatarUrl} width="74" height="74" alt="Host avatar"/>
                 </div>
-                <span className="header__user-name user__name">{loginName}</span>
+                <span className="header__user-name user__name">{loggedUser?.email}</span>
                 <span className="header__favorite-count">3</span>
               </a>
             </li>

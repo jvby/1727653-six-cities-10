@@ -4,13 +4,15 @@ import {Icon, Marker} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import React, { useRef, useEffect } from 'react';
 import useMap from '../../hooks/use-map/use-map';
+import { DefaultCity } from '../../const';
 
 
 type PlacesMapProps = {
   from: string;
-  rooms: RoomType[];
-  activeRoom?: number | null;
+  rooms: RoomType[] | undefined | null;
+  activeRoomID?: number | null;
   activeCity: City | undefined;
+  activeRoom?: RoomType | null;
 }
 
 const pin = new Icon({
@@ -25,23 +27,14 @@ const pinActive = new Icon({
   iconAnchor: [13, 39]
 });
 
-const defaultCity = {
-  'location': {
-    'latitude': 52.370216,
-    'longitude': 4.895168,
-    'zoom': 10,
-  },
-  'name': 'Amsterdam',
-};
-
-export function PlacesMap({from, rooms, activeRoom, activeCity = defaultCity}: PlacesMapProps): JSX.Element {
+export function PlacesMap({from, rooms, activeRoomID, activeRoom, activeCity = DefaultCity}: PlacesMapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, activeCity);
 
 
   useEffect(() => {
     if (map) {
-      rooms.forEach((room) => {
+      rooms?.forEach((room) => {
         const marker = new Marker({
           lat: room.location.latitude,
           lng: room.location.longitude
@@ -49,12 +42,23 @@ export function PlacesMap({from, rooms, activeRoom, activeCity = defaultCity}: P
 
         marker
           .setIcon(
-            activeRoom !== null && room.id === activeRoom
+            activeRoomID !== null && room.id === activeRoomID
               ? pinActive
               : pin
           )
           .addTo(map);
       });
+
+      if (activeRoom) {
+        const marker = new Marker({
+          lat: activeRoom.location.latitude,
+          lng: activeRoom.location.longitude
+        });
+
+        marker
+          .setIcon(pinActive)
+          .addTo(map);
+      }
 
       map.flyTo(
         {
@@ -67,7 +71,7 @@ export function PlacesMap({from, rooms, activeRoom, activeCity = defaultCity}: P
         }
       );
     }
-  }, [map, rooms, activeRoom, activeCity]);
+  }, [map, rooms, activeRoomID, activeCity, activeRoom]);
 
 
   const mapClass = cn('map', {

@@ -29,7 +29,7 @@ function App({rooms, comments}: AppProps): JSX.Element {
           </PrivateRoute>
         }
         />
-        <Route path={AppRoute.Offer} element={<RoomPage rooms={rooms} comments={comments}/>} />
+        <Route path={AppRoute.Offer} element={<RoomPage/>} />
         <Route path={AppRoute.NotFound} element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>

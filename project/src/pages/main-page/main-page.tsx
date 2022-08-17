@@ -9,12 +9,12 @@ import {EmptyPlaces} from '../../components/places-empty/places-empty';
 import cn from 'classnames';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
 import { ErrorScreen } from '../../components/error-screen/error-screen';
-import { RoomRequestStatus } from '../../const';
+import { DefaultCity, RoomRequestStatus } from '../../const';
 
 function MainPage(): JSX.Element {
   const currentCity = useAppSelector((state) => state.city);
-  const rooms = useAppSelector((state) => state.rooms).filter((room) => room.city.name === currentCity);
-  const [activeRoom, setActiveRoom] = useState<number | null>(null);
+  const rooms = useAppSelector((state) => state.rooms)?.filter((room) => room.city.name === currentCity);
+  const [activeRoomID, setActiveRoomID] = useState<number | null>(null);
   const activeSortType = useAppSelector((state) => state.sortType);
   const requestStatus = useAppSelector((state) => state.roomRequestStatus);
 
@@ -30,18 +30,18 @@ function MainPage(): JSX.Element {
     );
   }
 
-  const activeCity = rooms[1].city;
+  const activeCity = rooms ? rooms[1].city : DefaultCity;
 
   const getSortedRooms = () => {
     switch (activeSortType) {
       case 'Popular':
         return rooms;
       case 'Price: low to high':
-        return rooms.sort((a,b) => a.price - b.price);
+        return rooms?.sort((a,b) => a.price - b.price);
       case 'Price: high to low':
-        return rooms.sort((a,b) => b.price - a.price);
+        return rooms?.sort((a,b) => b.price - a.price);
       case 'Top rated first':
-        return rooms.sort((a,b) => b.rating - a.rating);
+        return rooms?.sort((a,b) => b.rating - a.rating);
       default:
         return rooms;
     }
@@ -49,9 +49,9 @@ function MainPage(): JSX.Element {
 
   const sortedRooms = getSortedRooms();
 
-  const updateActiveRoom = (newActiveRoom: number | null) => {
-    if (activeRoom !== newActiveRoom) {
-      setActiveRoom(newActiveRoom);
+  const updateActiveRoom = (newActiveRoomID: number | null) => {
+    if (activeRoomID !== newActiveRoomID) {
+      setActiveRoomID(newActiveRoomID);
     }
   };
 
@@ -59,30 +59,30 @@ function MainPage(): JSX.Element {
     <div className="page page--gray page--main">
       <Header/>
       <main className={cn('page__main', 'page__main--index', {
-        'page__main--index-empty': sortedRooms.length === 0
+        'page__main--index-empty': sortedRooms?.length === 0
       })}
       >
         <h1 className="visually-hidden">Cities</h1>
         <CityTab/>
         <div className="cities">
           <div className={cn('cities__places-container', 'container', {
-            'cities__places-container--empty': sortedRooms.length === 0
+            'cities__places-container--empty': sortedRooms?.length === 0
           })}
           >
-            {rooms.length === 0 ?
+            {rooms?.length === 0 ?
               <EmptyPlaces city={currentCity}/> :
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">{`${sortedRooms.length} places to stay in ${currentCity}`}</b>
+                <b className="places__found">{`${sortedRooms?.length} places to stay in ${currentCity}`}</b>
                 <PlacesSort/>
                 <div className="cities__places-list places__list tabs__content">
-                  {sortedRooms.map((room) =>(
-                    <CardPlace key={room.id} room={room} onMouseMove={updateActiveRoom} from={'main'}/>
+                  {sortedRooms?.map((room) =>(
+                    <CardPlace key={room.id} room={room} onMouseMove={updateActiveRoom} from='main'/>
                   ))}
                 </div>
               </section>}
             <div className="cities__right-section">
-              {sortedRooms.length !== 0 && <PlacesMap from='main' rooms={rooms} activeRoom={activeRoom} activeCity={activeCity}/>}
+              {sortedRooms?.length !== 0 && <PlacesMap from='main' rooms={rooms} activeRoomID={activeRoomID} activeCity={activeCity}/>}
             </div>
           </div>
         </div>
