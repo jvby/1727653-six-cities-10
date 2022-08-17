@@ -95,11 +95,17 @@ export function CommentsForm(): JSX.Element {
     });
   };
 
+  const resetFormValue = () => setFormData(initialFormState);
+
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    dispatch(postComment({roomID: currentCity?.id, rating: formData.rating.value, comment: formData.comment.value}));
-    setFormData(initialFormState);
+    dispatch(postComment({
+      roomID: currentCity?.id,
+      rating: formData.rating.value,
+      comment: formData.comment.value,
+      onSuccess: resetFormValue
+    }));
   };
 
   const isSubmitDisabled = !formData.rating.isChecked || formData.comment.error;

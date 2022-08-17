@@ -19,4 +19,5 @@ export type CommentData = {
   comment: string
   rating: number
   roomID: number | undefined
+  onSuccess: () => void
 }

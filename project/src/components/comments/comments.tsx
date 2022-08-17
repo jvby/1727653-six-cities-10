@@ -1,6 +1,6 @@
 import { AuthorizationStatus } from '../../const';
 import { useAppSelector } from '../../hooks';
-import { getRating } from '../../utils';
+import { getRating, humanizeDate } from '../../utils';
 import { CommentsForm } from '../comments-form/comments-form';
 
 export function Comments(): JSX.Element {
@@ -27,7 +27,7 @@ export function Comments(): JSX.Element {
         <p className="reviews__text">
           {comment.comment}
         </p>
-        <time className="reviews__time" dateTime="2019-04-24">April 2019</time>
+        <time className="reviews__time" dateTime={comment.date}>{humanizeDate(comment.date)}</time>
       </div>
     </li>
   ));

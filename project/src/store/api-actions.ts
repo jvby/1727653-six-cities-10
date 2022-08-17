@@ -104,11 +104,12 @@ export const postComment = createAsyncThunk<void, CommentData, {
   extra: AxiosInstance
 }>(
   'offers/postComments',
-  async ({comment, rating, roomID}, {dispatch, extra: api}) => {
+  async ({comment, rating, roomID, onSuccess}, {dispatch, extra: api}) => {
     dispatch(postCommentsRequest());
     try {
       const {data} = await api.post<CommentType[]>(`${APIRoute.Comments}/${roomID}`, {comment, rating});
       dispatch(loadCommentsData(data));
+      onSuccess();
     } catch (error) {
       dispatch(postCommentsFailure());
     }

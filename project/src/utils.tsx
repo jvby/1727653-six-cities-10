@@ -1,4 +1,6 @@
 import { CITIES } from './const';
+import dayjs from 'dayjs';
+
 
 export const getRating = (rating: number) => Math.floor(rating) * 20;
 
@@ -12,3 +14,5 @@ export const getRandomCity = () => {
   const randomCity = CITIES[randomIndex];
   return randomCity;
 };
+
+export const humanizeDate = (dueDate: string) => dayjs(dueDate).format('MMMM YYYY');
