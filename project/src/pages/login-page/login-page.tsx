@@ -1,16 +1,17 @@
 import { useEffect } from 'react';
 import {useNavigate} from 'react-router-dom';
 import { useAppSelector } from '../../hooks';
-import {AppRoute, AuthorizationStatus, RoomRequestStatus} from '../../const';
+import {AppRoute, AuthorizationStatus, RequestStatus} from '../../const';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
 import { LoginPagePicture } from '../../components/login-page-picture/login-page-picture';
 import { LoginForm } from '../../components/login-form/login-form';
 import { Header } from '../../components/header/header';
+import { getAuthorizationRequestStatus, getAuthorizationStatus } from '../../store/user-process/selectors';
 
 function LoginPage(): JSX.Element {
 
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const authorizationRequest = useAppSelector((state) => state.authorizationRequestStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const authorizationRequest = useAppSelector(getAuthorizationRequestStatus);
 
   const navigate = useNavigate();
 
@@ -21,7 +22,7 @@ function LoginPage(): JSX.Element {
   }, [authorizationStatus, navigate]
   );
 
-  if (authorizationRequest === RoomRequestStatus.request) {
+  if (authorizationRequest === RequestStatus.request) {
     return (
       <LoadingScreen/>
     );

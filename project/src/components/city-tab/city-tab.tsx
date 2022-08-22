@@ -1,10 +1,11 @@
 import { CITIES } from '../../const';
 import {useAppSelector, useAppDispatch} from '../../hooks';
-import { changeCity } from '../../store/action';
 import cn from 'classnames';
+import { getActiveCity } from '../../store/UI-process/selectors';
+import { changeCity } from '../../store/UI-process/UI-process';
 
 export function CityTab(): JSX.Element {
-  const activeCity = useAppSelector((state) => state.city);
+  const activeCity = useAppSelector(getActiveCity);
   const dispatch = useAppDispatch();
 
   const renderCitiesList = () => CITIES.map((city: string) => (

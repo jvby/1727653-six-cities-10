@@ -2,6 +2,7 @@ import React, {useState, ChangeEvent, FormEvent} from 'react';
 import { Fragment } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { postComment } from '../../store/api-actions';
+import { getActiveRoomData } from '../../store/room-process/selectors';
 
 type Ratings = {
   rating: number;
@@ -38,7 +39,7 @@ const initialFormState = {
 };
 
 export function CommentsForm(): JSX.Element {
-  const currentCity = useAppSelector((state) => state.activeRoomData);
+  const currentCity = useAppSelector(getActiveRoomData);
   const dispatch = useAppDispatch();
   const ratings: Ratings[] = [
     {

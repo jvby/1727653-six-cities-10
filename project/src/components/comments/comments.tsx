@@ -1,11 +1,13 @@
 import { AuthorizationStatus } from '../../const';
 import { useAppSelector } from '../../hooks';
+import { getCommentsData } from '../../store/ comment-process/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { getRating, humanizeDate } from '../../utils';
 import { CommentsForm } from '../comments-form/comments-form';
 
 export function Comments(): JSX.Element {
-  const comments = useAppSelector((state) => state.commentsData);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const comments = useAppSelector(getCommentsData);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const renderComments = () => comments?.map((comment) => (
     <li key={comment.id} className="reviews__item">

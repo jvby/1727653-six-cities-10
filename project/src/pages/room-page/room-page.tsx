@@ -11,11 +11,13 @@ import { FavoriteButton } from '../../components/favorite-button/favorite-button
 import { RoomHost } from '../../components/room-host/room-host';
 import style from './room-page.module.css';
 import { fetchActiveRoom, fetchComments, fetchNearRooms } from '../../store/api-actions';
-import { RoomRequestStatus } from '../../const';
+import { RequestStatus } from '../../const';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useEffect } from 'react';
 import NotFoundPage from '../not-found-page/not-found-page';
+import { getActiveRoomData, getActiveRoomRequestStatus, getNearRoomData } from '../../store/room-process/selectors';
+import { getPostCommentRequestStatus } from '../../store/ comment-process/selectors';
 
 function RoomPage(): JSX.Element {
   const params = useParams();
@@ -27,20 +29,20 @@ function RoomPage(): JSX.Element {
     dispatch(fetchComments(params.id));
   }, [params, dispatch]);
 
-  const nearRooms = useAppSelector((state) => state.nearRoomData);
-  const roomToRender = useAppSelector((state) => state.activeRoomData);
-  const roomRequestStatus = useAppSelector((state) => state.activeRoomRequestStatus);
-  const commetsPostStatus = useAppSelector((state) => state.postCommentRequest);
+  const nearRooms = useAppSelector(getNearRoomData);
+  const roomToRender = useAppSelector(getActiveRoomData);
+  const activeRoomRequestStatus = useAppSelector(getActiveRoomRequestStatus);
+  const commetsPostStatus = useAppSelector(getPostCommentRequestStatus);
 
-  if ([RoomRequestStatus.idle, RoomRequestStatus.request]
-    .includes(roomRequestStatus) ||
-    RoomRequestStatus.request.includes(commetsPostStatus)){
+  if ([RequestStatus.idle, RequestStatus.request]
+    .includes(activeRoomRequestStatus) ||
+    RequestStatus.request.includes(commetsPostStatus)){
     return (
       <LoadingScreen/>
     );
   }
 
-  if ([RoomRequestStatus.error].includes(roomRequestStatus)){
+  if ([RequestStatus.error].includes(activeRoomRequestStatus)){
     return (
       <NotFoundPage/>
     );

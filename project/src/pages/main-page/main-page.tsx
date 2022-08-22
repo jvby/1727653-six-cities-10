@@ -9,22 +9,24 @@ import {EmptyPlaces} from '../../components/places-empty/places-empty';
 import cn from 'classnames';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
 import { ErrorScreen } from '../../components/error-screen/error-screen';
-import { DefaultCity, RoomRequestStatus } from '../../const';
+import { DefaultCity, RequestStatus } from '../../const';
+import { getRooms, getRoomsRequestStatus } from '../../store/room-process/selectors';
+import { getActiveCity, getSortType } from '../../store/UI-process/selectors';
 
 function MainPage(): JSX.Element {
-  const currentCity = useAppSelector((state) => state.city);
-  const rooms = useAppSelector((state) => state.rooms)?.filter((room) => room.city.name === currentCity);
+  const currentCity = useAppSelector(getActiveCity);
+  const rooms = useAppSelector(getRooms)?.filter((room) => room.city.name === currentCity);
   const [activeRoomID, setActiveRoomID] = useState<number | null>(null);
-  const activeSortType = useAppSelector((state) => state.sortType);
-  const requestStatus = useAppSelector((state) => state.roomRequestStatus);
+  const activeSortType = useAppSelector(getSortType);
+  const roomsRequestStatus = useAppSelector(getRoomsRequestStatus);
 
-  if ([RoomRequestStatus.idle, RoomRequestStatus.request].includes(requestStatus)){
+  if ([RequestStatus.idle, RequestStatus.request].includes(roomsRequestStatus)){
     return (
       <LoadingScreen/>
     );
   }
 
-  if ([RoomRequestStatus.error].includes(requestStatus)){
+  if ([RequestStatus.error].includes(roomsRequestStatus)){
     return (
       <ErrorScreen/>
     );

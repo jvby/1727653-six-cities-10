@@ -2,12 +2,13 @@ import { useState, useRef } from 'react';
 import cn from 'classnames';
 import {useAppSelector, useAppDispatch} from '../../hooks';
 import { SORT_TYPE } from '../../const';
-import { changeSortType } from '../../store/action';
 import useOnClickOutside from '../../hooks/use-on-click-outside/use-on-click-outside';
+import { getSortType } from '../../store/UI-process/selectors';
+import { changeSortType } from '../../store/UI-process/UI-process';
 
 export function PlacesSort(): JSX.Element {
   const [ sortListStatus, setSortListStatus ] = useState<boolean>(false);
-  const activeSortType = useAppSelector((state) => state.sortType);
+  const activeSortType = useAppSelector(getSortType);
   const dispatch = useAppDispatch();
   const ref = useRef(null);
   useOnClickOutside(ref, () => setSortListStatus(false));

@@ -1,9 +1,10 @@
 import { CardPlace } from '../card-place/card-place';
 import { useAppSelector } from '../../hooks';
+import { getNearRoomData } from '../../store/room-process/selectors';
 
 
 export function NearPlaces(): JSX.Element {
-  const nearRooms = useAppSelector((state) => state.nearRoomData);
+  const nearRooms = useAppSelector(getNearRoomData);
   return (
     <section className="near-places places">
       <h2 className="near-places__title">Other places in the neighbourhood</h2>

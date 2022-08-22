@@ -39,10 +39,16 @@ export enum APIRoute {
   Logout = '/logout',
 }
 
-export enum RoomRequestStatus {
+export enum RequestStatus {
   idle = 'idle',
   request = 'request',
   success = 'success',
   error = 'error',
 }
 
+export enum NameSpace {
+  Rooms = 'ROOMS',
+  Comments = 'COMMENTS',
+  User = 'USER',
+  UI = 'UI',
+}
