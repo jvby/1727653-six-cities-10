@@ -2,168 +2,102 @@ import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/store';
 import { RoomType } from '../types/room';
-import { APIRoute, AuthorizationStatus } from '../const';
-import {
-  authorizationRequest,
-  authorizationRequestFailure,
-  authorizationRequestSuccess,
-  loadActiveRoomData,
-  loadActiveRoomFailure,
-  loadActiveRoomRequest,
-  loadCommentsData,
-  loadCommentsFailure,
-  loadCommentsRequest,
-  loadNearRoomsData,
-  loadNearRoomsFailure,
-  loadNearRoomsRequest,
-  loadRoomsData,
-  loadRoomsFailure,
-  loadRoomsRequest,
-  postCommentsFailure,
-  postCommentsRequest,
-  requireAuthorization,
-  setLoggedUser
-} from './action';
+import { APIRoute } from '../const';
 import { UserData } from '../types/user-data';
 import { dropToken, saveToken } from '../token';
 import { AuthData } from '../types/auth-data';
 import { CommentData, CommentType } from '../types/comment';
 
 
-export const fetchRooms = createAsyncThunk<void, undefined, {
-  dispatch: AppDispatch,
+export const fetchRooms = createAsyncThunk<RoomType[], undefined, {
   state: State,
   extra: AxiosInstance
 }>(
   'offers/fetchRooms',
-  async (_arg, {dispatch, extra: api}) => {
-    dispatch(loadRoomsRequest());
-    try {
-      const {data} = await api.get<RoomType[]>(APIRoute.Rooms);
-      dispatch(loadRoomsData(data));
-    } catch (error) {
-      dispatch(loadRoomsFailure());
-    }
+  async (_arg, {extra: api}) => {
+    const {data} = await api.get<RoomType[]>(APIRoute.Rooms);
+    return data;
   },
 );
 
-export const fetchActiveRoom = createAsyncThunk<void, string | undefined, {
-  dispatch: AppDispatch,
+export const fetchActiveRoom = createAsyncThunk<RoomType, string | undefined, {
   state: State,
   extra: AxiosInstance
 }>(
   'offers/fetchActiveRoom',
-  async (roomID, {dispatch, extra: api}) => {
-    dispatch(loadActiveRoomRequest());
-    try {
-      const {data} = await api.get<RoomType>(`${APIRoute.Rooms}/${roomID}`);
-      dispatch(loadActiveRoomData(data));
-    } catch (error) {
-      dispatch(loadActiveRoomFailure());
-    }
+  async (roomID, {extra: api}) => {
+    const {data} = await api.get<RoomType>(`${APIRoute.Rooms}/${roomID}`);
+    return data;
   },
 );
 
-export const fetchNearRooms = createAsyncThunk<void, string | undefined, {
-  dispatch: AppDispatch,
+export const fetchNearRooms = createAsyncThunk<RoomType[], string | undefined, {
   state: State,
   extra: AxiosInstance
 }>(
-  'offers/fetchActiveRoom',
-  async (roomID, {dispatch, extra: api}) => {
-    dispatch(loadNearRoomsRequest());
-    try {
-      const {data} = await api.get<RoomType[]>(`${APIRoute.Rooms}/${roomID}/nearby`);
-      dispatch(loadNearRoomsData(data));
-    } catch (error) {
-      dispatch(loadNearRoomsFailure());
-    }
+  'offers/fetchNearRooms',
+  async (roomID, {extra: api}) => {
+    const {data} = await api.get<RoomType[]>(`${APIRoute.Rooms}/${roomID}/nearby`);
+    return data;
   },
 );
 
-export const fetchComments = createAsyncThunk<void, string | undefined, {
+export const fetchComments = createAsyncThunk<CommentType[], string | undefined, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
   'offers/fetchComments',
-  async (roomID, {dispatch, extra: api}) => {
-    dispatch(loadCommentsRequest());
-    try {
-      const {data} = await api.get<CommentType[]>(`${APIRoute.Comments}/${roomID}`);
-      dispatch(loadCommentsData(data));
-    } catch (error) {
-      dispatch(loadCommentsFailure());
-    }
+  async (roomID, {extra: api}) => {
+    const {data} = await api.get<CommentType[]>(`${APIRoute.Comments}/${roomID}`);
+    return data;
   },
 );
 
-export const postComment = createAsyncThunk<void, CommentData, {
-  dispatch: AppDispatch,
+export const postComment = createAsyncThunk<CommentType[], CommentData, {
   state: State,
   extra: AxiosInstance
 }>(
   'offers/postComments',
-  async ({comment, rating, roomID, onSuccess}, {dispatch, extra: api}) => {
-    dispatch(postCommentsRequest());
-    try {
-      const {data} = await api.post<CommentType[]>(`${APIRoute.Comments}/${roomID}`, {comment, rating});
-      dispatch(loadCommentsData(data));
-      onSuccess();
-    } catch (error) {
-      dispatch(postCommentsFailure());
-    }
+  async ({comment, rating, roomID, onSuccess}, {extra: api}) => {
+    const {data} = await api.post<CommentType[]>(`${APIRoute.Comments}/${roomID}`, {comment, rating});
+    onSuccess();
+    return data;
   },
 );
 
-export const checkAuthAction = createAsyncThunk<void, undefined, {
-  dispatch: AppDispatch,
+export const checkAuthAction = createAsyncThunk<UserData, undefined, {
   state: State,
   extra: AxiosInstance
 }>(
   'offers/checkAuth',
-  async (_arg, {dispatch, extra: api}) => {
-    try {
-      const {data} = await api.get(APIRoute.Login);
-      dispatch(requireAuthorization(AuthorizationStatus.Auth));
-      dispatch(setLoggedUser(data));
-    } catch {
-      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-    }
+  async (_arg, {extra: api}) => {
+    const {data} = await api.get<UserData>(APIRoute.Login);
+    return data;
   },
 );
 
-export const loginAction = createAsyncThunk<void, AuthData, {
+export const loginAction = createAsyncThunk<UserData, AuthData, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
   'offers/login',
-  async ({login: email, password}, {dispatch, extra: api}) => {
-    dispatch(authorizationRequest());
-    try {
-      const {data} = await api.post<UserData>(APIRoute.Login, {email, password});
-      saveToken(data.token);
-      dispatch(requireAuthorization(AuthorizationStatus.Auth));
-      dispatch(setLoggedUser(data));
-      dispatch(authorizationRequestSuccess());
-    } catch {
-      dispatch(authorizationRequestFailure());
-    }
+  async ({login: email, password}, {extra: api}) => {
+    const {data} = await api.post<UserData>(APIRoute.Login, {email, password});
+    saveToken(data.token);
+    return data;
   },
 );
 
 export const logoutAction = createAsyncThunk<void, undefined, {
-  dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
   'offers/logout',
-  async (_arg, {dispatch, extra: api}) => {
+  async (_arg, {extra: api}) => {
     await api.delete(APIRoute.Logout);
     dropToken();
-    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-    dispatch(setLoggedUser(null));
   },
 );
 

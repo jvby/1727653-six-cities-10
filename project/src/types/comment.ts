@@ -21,3 +21,8 @@ export type CommentData = {
   roomID: number | undefined
   onSuccess: () => void
 }
+
+export type Ratings = {
+  rating: number;
+  title: string;
+}

@@ -1,3 +1,4 @@
+import { Ratings } from './types/comment';
 
 export enum AuthorizationStatus {
   Auth = 'AUTH',
@@ -39,10 +40,54 @@ export enum APIRoute {
   Logout = '/logout',
 }
 
-export enum RoomRequestStatus {
+export enum RequestStatus {
   idle = 'idle',
   request = 'request',
   success = 'success',
   error = 'error',
 }
 
+export enum NameSpace {
+  Rooms = 'ROOMS',
+  Comments = 'COMMENTS',
+  User = 'USER',
+  UserInterface = 'UI',
+}
+
+export enum SortingType {
+  Popular = 'Popular',
+  PriceLowToHigh = 'Price: low to high',
+  PriceHighToLow = 'Price: high to low',
+  TopRated = 'Top rated first',
+}
+
+export const MAX_COMMENTS_AMMOUNT = 10;
+
+export const RATINGS: Ratings[] = [
+  {
+    rating: 5,
+    title: 'perfect',
+  },
+  {
+    rating: 4,
+    title: 'good',
+  },
+  {
+    rating: 3,
+    title: 'not bad',
+  },
+  {
+    rating: 2,
+    title: 'badly',
+  },
+  {
+    rating: 1,
+    title: 'terribly',
+  },
+];
+
+export const MIN_RATING = 0;
+export const MAX_RATING = 0;
+
+export const MIN_COMMENT_LENGTH = 50;
+export const MAX_COMMENT_LENGTH = 300;

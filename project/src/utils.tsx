@@ -1,5 +1,6 @@
 import { CITIES } from './const';
 import dayjs from 'dayjs';
+import { CommentType } from './types/comment';
 
 
 export const getRating = (rating: number) => Math.floor(rating) * 20;
@@ -16,3 +17,5 @@ export const getRandomCity = () => {
 };
 
 export const humanizeDate = (dueDate: string) => dayjs(dueDate).format('MMMM YYYY');
+
+export const sortCommentsByDate = (commentA: CommentType, commentB: CommentType) => dayjs(commentB.date).diff(commentA.date);

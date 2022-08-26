@@ -9,6 +9,7 @@ import { AppRoute } from '../../const';
 import { RoomType } from '../../types/room';
 import { CommentType } from '../../types/comment';
 import { useAppSelector } from '../../hooks';
+import { getAuthorizationStatus } from '../../store/user/selectors';
 
 type AppProps = {
   rooms: RoomType[];
@@ -16,7 +17,7 @@ type AppProps = {
 }
 
 function App({rooms, comments}: AppProps): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   return (
     <BrowserRouter>
