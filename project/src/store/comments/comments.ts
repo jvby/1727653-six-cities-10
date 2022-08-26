@@ -1,10 +1,16 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {NameSpace, RequestStatus} from '../../const';
-import {CommentProcess} from '../../types/store';
+import { CommentType } from '../../types/comment';
 import { fetchComments, postComment } from '../api-actions';
 
-const initialState: CommentProcess = {
-  commentsData: null,
+export type CommentsInitialState = {
+  commentsData: CommentType[],
+  commentsRequestStatus: RequestStatus,
+  postCommentRequestStatus: RequestStatus,
+};
+
+const initialState: CommentsInitialState = {
+  commentsData: [],
   commentsRequestStatus: RequestStatus.idle,
   postCommentRequestStatus: RequestStatus.idle,
 };

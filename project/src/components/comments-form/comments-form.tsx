@@ -1,19 +1,14 @@
 import React, {useState, ChangeEvent, FormEvent} from 'react';
 import { Fragment } from 'react';
+import { MAX_COMMENT_LENGTH, MAX_RATING, MIN_COMMENT_LENGTH, MIN_RATING, RATINGS, RequestStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { postComment } from '../../store/api-actions';
-import { getActiveRoomData } from '../../store/room-process/selectors';
-
-type Ratings = {
-  rating: number;
-  title: string;
-}
+import { getPostCommentRequestStatus } from '../../store/comments/selectors';
+import { getActiveRoomData } from '../../store/rooms/selectors';
 
 type CommentState = {
   value: string
   error: boolean;
-  minSize: number;
-  maxSize: number;
 }
 type RatingState = {
   value: number
@@ -29,8 +24,6 @@ const initialFormState = {
   comment: {
     value: '',
     error: true,
-    minSize: 50,
-    maxSize: 300,
   },
   rating: {
     value: 0,
@@ -39,30 +32,9 @@ const initialFormState = {
 };
 
 export function CommentsForm(): JSX.Element {
-  const currentCity = useAppSelector(getActiveRoomData);
+  const currentRoom = useAppSelector(getActiveRoomData);
   const dispatch = useAppDispatch();
-  const ratings: Ratings[] = [
-    {
-      rating: 5,
-      title: 'perfect',
-    },
-    {
-      rating: 4,
-      title: 'good',
-    },
-    {
-      rating: 3,
-      title: 'not bad',
-    },
-    {
-      rating: 2,
-      title: 'badly',
-    },
-    {
-      rating: 1,
-      title: 'terribly',
-    },
-  ];
+  const commentPostRequestStatus = useAppSelector(getPostCommentRequestStatus);
 
   const [formData, setFormData] = useState<CommentsStateProps>(initialFormState);
 
@@ -70,7 +42,7 @@ export function CommentsForm(): JSX.Element {
     const { value } = evt.target;
     const rating = parseInt(value, 10);
 
-    const isRatingValid = rating > 0 || rating <= 5;
+    const isRatingValid = rating > MIN_RATING || rating <= MAX_RATING;
 
     setFormData({
       ...formData,
@@ -84,7 +56,7 @@ export function CommentsForm(): JSX.Element {
 
   const handleCommentChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = evt.target;
-    const hasCommentEnoughLength = value.length >= formData.comment.minSize && value.length <= formData.comment.maxSize;
+    const hasCommentEnoughLength = value.length >= MIN_COMMENT_LENGTH && value.length <= MAX_COMMENT_LENGTH;
 
     setFormData({
       ...formData,
@@ -102,16 +74,18 @@ export function CommentsForm(): JSX.Element {
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     dispatch(postComment({
-      roomID: currentCity?.id,
+      roomID: currentRoom?.id,
       rating: formData.rating.value,
       comment: formData.comment.value,
       onSuccess: resetFormValue
     }));
   };
 
+  const isFormDisabled = commentPostRequestStatus === RequestStatus.request;
+
   const isSubmitDisabled = !formData.rating.isChecked || formData.comment.error;
 
-  const renderStars = ratings.map((rating) => (
+  const renderStars = RATINGS.map((rating) => (
     <Fragment key={`rating-${rating.rating}`}>
       <input
         className="form__rating-input visually-hidden"
@@ -121,6 +95,7 @@ export function CommentsForm(): JSX.Element {
         type="radio"
         onChange={handleRatingChange}
         checked={rating.rating === formData.rating.value}
+        disabled={isFormDisabled}
       />
       <label
         htmlFor={`${rating.rating}-stars`}
@@ -153,13 +128,20 @@ export function CommentsForm(): JSX.Element {
         placeholder="Tell how was your stay, what you like and what can be improved"
         onChange={handleCommentChange}
         value={formData.comment.value}
+        disabled={isFormDisabled}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star"> rating </span> and describe your stay with at least
           <b className="reviews__text-amount"> 50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={isSubmitDisabled}>Submit</button>
+        <button
+          className="reviews__submit form__submit button"
+          type="submit"
+          disabled={isSubmitDisabled || isFormDisabled}
+        >
+          {isFormDisabled ? 'Submit...' : 'Submit'}
+        </button>
       </div>
     </form>
   );

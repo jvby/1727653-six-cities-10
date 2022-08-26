@@ -4,7 +4,7 @@ import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { store } from '../../store';
 import { logoutAction } from '../../store/api-actions';
-import { getAuthorizationStatus, getLoggedUser } from '../../store/user-process/selectors';
+import { getAuthorizationStatus, getLoggedUser } from '../../store/user/selectors';
 
 export function UserNavigation(): JSX.Element {
   const loggedUser = useAppSelector(getLoggedUser);

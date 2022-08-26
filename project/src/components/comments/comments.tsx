@@ -1,15 +1,15 @@
 import { AuthorizationStatus } from '../../const';
 import { useAppSelector } from '../../hooks';
-import { getCommentsData } from '../../store/ comment-process/selectors';
-import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { getComments } from '../../store/comments/selectors';
+import { getAuthorizationStatus } from '../../store/user/selectors';
 import { getRating, humanizeDate } from '../../utils';
 import { CommentsForm } from '../comments-form/comments-form';
 
 export function Comments(): JSX.Element {
-  const comments = useAppSelector(getCommentsData);
+  const comments = useAppSelector(getComments);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
-  const renderComments = () => comments?.map((comment) => (
+  const renderComments = () => comments.map((comment) => (
     <li key={comment.id} className="reviews__item">
       <div className="reviews__user user">
         <div className="reviews__avatar-wrapper user__avatar-wrapper">
@@ -36,7 +36,7 @@ export function Comments(): JSX.Element {
 
   return (
     <section className="property__reviews reviews">
-      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments?.length}</span></h2>
+      <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
       <ul className="reviews__list">
         {renderComments()}
       </ul>

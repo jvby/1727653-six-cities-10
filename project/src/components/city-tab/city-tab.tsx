@@ -1,8 +1,8 @@
 import { CITIES } from '../../const';
 import {useAppSelector, useAppDispatch} from '../../hooks';
 import cn from 'classnames';
-import { getActiveCity } from '../../store/UI-process/selectors';
-import { changeCity } from '../../store/UI-process/UI-process';
+import { getActiveCity } from '../../store/ui/selectors';
+import { changeCity } from '../../store/ui/ui';
 
 export function CityTab(): JSX.Element {
   const activeCity = useAppSelector(getActiveCity);

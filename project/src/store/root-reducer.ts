@@ -1,13 +1,13 @@
 import {combineReducers} from '@reduxjs/toolkit';
 import {NameSpace} from '../const';
-import { commentProcess } from './ comment-process/comment-process';
-import { roomProcess } from './room-process/room-process';
-import { userInterfaceProcess } from './UI-process/UI-process';
-import { userProcess } from './user-process/user-process';
+import { commentProcess } from './comments/comments';
+import { roomProcess } from './rooms/rooms';
+import { userInterfaceSlice } from './ui/ui';
+import { userSlice } from './user/user';
 
 export const rootReducer = combineReducers({
   [NameSpace.Comments]: commentProcess.reducer,
   [NameSpace.Rooms]: roomProcess.reducer,
-  [NameSpace.User]: userProcess.reducer,
-  [NameSpace.UI]: userInterfaceProcess.reducer,
+  [NameSpace.User]: userSlice.reducer,
+  [NameSpace.UserInterface]: userInterfaceSlice.reducer,
 });

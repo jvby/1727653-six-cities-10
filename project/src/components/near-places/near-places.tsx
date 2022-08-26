@@ -1,6 +1,6 @@
 import { CardPlace } from '../card-place/card-place';
 import { useAppSelector } from '../../hooks';
-import { getNearRoomData } from '../../store/room-process/selectors';
+import { getNearRoomData } from '../../store/rooms/selectors';
 
 
 export function NearPlaces(): JSX.Element {

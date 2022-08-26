@@ -6,7 +6,7 @@ import LoadingScreen from '../../components/loading-screen/loading-screen';
 import { LoginPagePicture } from '../../components/login-page-picture/login-page-picture';
 import { LoginForm } from '../../components/login-form/login-form';
 import { Header } from '../../components/header/header';
-import { getAuthorizationRequestStatus, getAuthorizationStatus } from '../../store/user-process/selectors';
+import { getAuthorizationRequestStatus, getAuthorizationStatus } from '../../store/user/selectors';
 
 function LoginPage(): JSX.Element {
 

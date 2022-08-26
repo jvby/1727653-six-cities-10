@@ -1,14 +1,23 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {NameSpace, RequestStatus} from '../../const';
-import {RoomProcess} from '../../types/store';
+import { RoomType } from '../../types/room';
 import { fetchActiveRoom, fetchNearRooms, fetchRooms } from '../api-actions';
 
-const initialState: RoomProcess = {
-  rooms: null,
+export type RoomsInitialState = {
+  rooms: RoomType[],
+  roomsRequestStatus: RequestStatus,
+  activeRoomData: RoomType | null,
+  activeRoomRequestStatus: RequestStatus,
+  nearRoomData: RoomType[],
+  nearRoomRequestStatus: RequestStatus,
+};
+
+const initialState: RoomsInitialState = {
+  rooms: [],
   roomsRequestStatus: RequestStatus.idle,
   activeRoomData: null,
   activeRoomRequestStatus: RequestStatus.idle,
-  nearRoomData: null,
+  nearRoomData: [],
   nearRoomRequestStatus: RequestStatus.idle,
 };
 

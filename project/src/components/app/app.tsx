@@ -9,7 +9,7 @@ import { AppRoute } from '../../const';
 import { RoomType } from '../../types/room';
 import { CommentType } from '../../types/comment';
 import { useAppSelector } from '../../hooks';
-import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import { getAuthorizationStatus } from '../../store/user/selectors';
 
 type AppProps = {
   rooms: RoomType[];
