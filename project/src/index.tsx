@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 store.dispatch(fetchRooms());
 store.dispatch(checkAuthAction());
 
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );

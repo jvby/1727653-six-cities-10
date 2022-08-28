@@ -1,14 +1,24 @@
 
 import {Navigate} from 'react-router-dom';
-import {AuthorizationStatus} from '../../const';
+import {AuthorizationStatus, RequestStatus} from '../../const';
+import { useAppSelector } from '../../hooks';
+import { getAuthorizationRequestStatus, getAuthorizationStatus } from '../../store/user/selectors';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 type PrivateRouteProps = {
-  authorizationStatus: AuthorizationStatus;
   children: JSX.Element;
 }
 
 function PrivateRoute(props: PrivateRouteProps): JSX.Element {
-  const {authorizationStatus, children} = props;
+  const {children} = props;
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const authorizationRequestStatus = useAppSelector(getAuthorizationRequestStatus);
+
+  if ([RequestStatus.idle, RequestStatus.request].includes(authorizationRequestStatus)){
+    return (
+      <LoadingScreen/>
+    );
+  }
 
   return (
     authorizationStatus === AuthorizationStatus.Auth

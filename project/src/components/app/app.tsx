@@ -8,8 +8,6 @@ import PrivateRoute from '../private-route/private-route';
 import { AppRoute } from '../../const';
 import { RoomType } from '../../types/room';
 import { CommentType } from '../../types/comment';
-import { useAppSelector } from '../../hooks';
-import { getAuthorizationStatus } from '../../store/user/selectors';
 
 type AppProps = {
   rooms: RoomType[];
@@ -17,7 +15,6 @@ type AppProps = {
 }
 
 function App({rooms, comments}: AppProps): JSX.Element {
-  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   return (
     <BrowserRouter>
@@ -25,8 +22,8 @@ function App({rooms, comments}: AppProps): JSX.Element {
         <Route path={AppRoute.Main} element={<MainPage/>} />
         <Route path={AppRoute.Login} element={<LoginPage />} />
         <Route path={AppRoute.Favorites} element={
-          <PrivateRoute authorizationStatus={authorizationStatus}>
-            <FavoritesPage rooms={rooms}/>
+          <PrivateRoute>
+            <FavoritesPage/>
           </PrivateRoute>
         }
         />

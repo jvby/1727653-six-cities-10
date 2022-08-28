@@ -140,7 +140,7 @@ export function CommentsForm(): JSX.Element {
           type="submit"
           disabled={isSubmitDisabled || isFormDisabled}
         >
-          {isFormDisabled ? 'Submit...' : 'Submit'}
+          {isFormDisabled ? 'Submiting...' : 'Submit'}
         </button>
       </div>
     </form>

@@ -35,3 +35,8 @@ export type City = {
   location: Location
   name: string
 }
+
+export type FavoriteData = {
+  roomID: number
+  isFavorite: number
+}

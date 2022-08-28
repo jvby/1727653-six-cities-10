@@ -76,7 +76,7 @@ export function CardPlace({room, onMouseMove, from}: CardPlaceProps): JSX.Elemen
             <b className="place-card__price-value">&euro;{room.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <FavoriteButton isFavorite={room.isFavorite} from={'card-place'}/>
+          <FavoriteButton isFavorite={room.isFavorite} roomID={room.id} from={'card-place'}/>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">

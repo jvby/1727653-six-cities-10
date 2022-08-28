@@ -40,9 +40,7 @@ export function Comments(): JSX.Element {
       <ul className="reviews__list">
         {renderComments()}
       </ul>
-      {authorizationStatus === AuthorizationStatus.Auth ?
-        <CommentsForm/> :
-        ''}
+      {authorizationStatus === AuthorizationStatus.Auth && <CommentsForm/>}
     </section>
   );
 }

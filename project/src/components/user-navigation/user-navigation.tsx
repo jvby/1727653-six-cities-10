@@ -1,15 +1,18 @@
 import { Fragment } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { store } from '../../store';
 import { logoutAction } from '../../store/api-actions';
+import { getFavoriteRooms } from '../../store/rooms/selectors';
 import { getAuthorizationStatus, getLoggedUser } from '../../store/user/selectors';
 
 export function UserNavigation(): JSX.Element {
   const loggedUser = useAppSelector(getLoggedUser);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const navigate = useNavigate();
+
+  const favoriteRooms = useAppSelector(getFavoriteRooms);
 
 
   return (
@@ -18,13 +21,13 @@ export function UserNavigation(): JSX.Element {
         {authorizationStatus === AuthorizationStatus.Auth ?
           <Fragment>
             <li className="header__nav-item user">
-              <a className="header__nav-link header__nav-link--profile" href="/#">
+              <Link className={'header__nav-link header__nav-link--profile'} to={AppRoute.Favorites}>
                 <div className="header__avatar-wrapper user__avatar-wrapper">
                   <img className="header__avatar user__avatar" src={loggedUser?.avatarUrl} width="74" height="74" alt="Host avatar"/>
                 </div>
                 <span className="header__user-name user__name">{loggedUser?.email}</span>
-                <span className="header__favorite-count">3</span>
-              </a>
+                <span className="header__favorite-count">{favoriteRooms.length}</span>
+              </Link>
             </li>
             <li className="header__nav-item">
               <a className="header__nav-link" href="/#" onClick={(evt)=> {

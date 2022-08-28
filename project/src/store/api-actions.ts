@@ -1,7 +1,7 @@
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/store';
-import { RoomType } from '../types/room';
+import { FavoriteData, RoomType } from '../types/room';
 import { APIRoute } from '../const';
 import { UserData } from '../types/user-data';
 import { dropToken, saveToken } from '../token';
@@ -16,6 +16,17 @@ export const fetchRooms = createAsyncThunk<RoomType[], undefined, {
   'offers/fetchRooms',
   async (_arg, {extra: api}) => {
     const {data} = await api.get<RoomType[]>(APIRoute.Rooms);
+    return data;
+  },
+);
+
+export const fetchFavoriteRooms = createAsyncThunk<RoomType[], undefined, {
+  state: State,
+  extra: AxiosInstance
+}>(
+  'offers/fetchFavoriteRooms',
+  async (_arg, {extra: api}) => {
+    const {data} = await api.get<RoomType[]>(APIRoute.Favorites);
     return data;
   },
 );
@@ -38,6 +49,17 @@ export const fetchNearRooms = createAsyncThunk<RoomType[], string | undefined, {
   'offers/fetchNearRooms',
   async (roomID, {extra: api}) => {
     const {data} = await api.get<RoomType[]>(`${APIRoute.Rooms}/${roomID}/nearby`);
+    return data;
+  },
+);
+
+export const changeFavoriteOption = createAsyncThunk<RoomType, FavoriteData, {
+  state: State,
+  extra: AxiosInstance
+}>(
+  'offers/changeFavoriteOption',
+  async ({roomID, isFavorite}, {extra: api}) => {
+    const {data} = await api.post<RoomType>(`${APIRoute.Favorites}/${roomID}/${isFavorite}`);
     return data;
   },
 );
