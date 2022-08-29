@@ -6,15 +6,8 @@ import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PrivateRoute from '../private-route/private-route';
 import { AppRoute } from '../../const';
-import { RoomType } from '../../types/room';
-import { CommentType } from '../../types/comment';
 
-type AppProps = {
-  rooms: RoomType[];
-  comments: CommentType[];
-}
-
-function App({rooms, comments}: AppProps): JSX.Element {
+function App(): JSX.Element {
 
   return (
     <BrowserRouter>
