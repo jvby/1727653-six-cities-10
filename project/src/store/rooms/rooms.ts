@@ -65,12 +65,14 @@ export const roomProcess = createSlice({
         const indexOfRoom = state.rooms.findIndex((room) => room.id === action.payload.id);
         const indexOfNearRoom = state.nearRoomData.findIndex((room) => room.id === action.payload.id);
         const indexOfFavoriteRoom = state.favoriteRooms.findIndex((room) => room.id === action.payload.id);
-        state.activeRoomData = action.payload;
+        if (state.activeRoomData !== null && state.activeRoomData.id === action.payload.id) {
+          state.activeRoomData = action.payload;
+        }
         if (indexOfRoom !== -1) {
           state.rooms[indexOfRoom].isFavorite = action.payload.isFavorite;
         }
         if (indexOfNearRoom !== -1) {
-          state.nearRoomData[indexOfRoom].isFavorite = action.payload.isFavorite;
+          state.nearRoomData[indexOfNearRoom].isFavorite = action.payload.isFavorite;
         }
         if (indexOfFavoriteRoom === -1) {
           state.favoriteRooms.push(action.payload);
