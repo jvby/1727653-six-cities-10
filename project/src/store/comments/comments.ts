@@ -15,7 +15,7 @@ const initialState: CommentsInitialState = {
   postCommentRequestStatus: RequestStatus.idle,
 };
 
-export const commentProcess = createSlice({
+export const commentsSlice = createSlice({
   name: NameSpace.Comments,
   initialState,
   reducers: {},

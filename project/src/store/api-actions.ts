@@ -7,6 +7,7 @@ import { UserData } from '../types/user-data';
 import { dropToken, saveToken } from '../token';
 import { AuthData } from '../types/auth-data';
 import { CommentData, CommentType } from '../types/comment';
+import { toast } from 'react-toastify';
 
 
 export const fetchRooms = createAsyncThunk<RoomType[], undefined, {
@@ -117,9 +118,18 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   extra: AxiosInstance
 }>(
   'offers/logout',
-  async (_arg, {extra: api}) => {
-    await api.delete(APIRoute.Logout);
-    dropToken();
+  async (_arg, {dispatch, extra: api}) => {
+    try{
+      await api.delete(APIRoute.Logout);
+      dropToken();
+      dispatch(fetchRooms());
+    }
+    catch (e) {
+      if (e instanceof Error) {
+        toast.error(e.message);
+      }
+      throw e;
+    }
   },
 );
 

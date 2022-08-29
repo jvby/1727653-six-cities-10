@@ -2,18 +2,19 @@ import { CardPlace } from '../../components/card-place/card-place';
 import { Link } from 'react-router-dom';
 import { Header } from '../../components/header/header';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getFavoriteRooms, getFavoriteRoomsRequestStatus } from '../../store/rooms/selectors';
-import { AppRoute, RequestStatus } from '../../const';
+import { AppRoute } from '../../const';
 import { fetchFavoriteRooms } from '../../store/api-actions';
 import { FavoritesEmpty } from '../../components/favorites-empty/favorites-empty';
+import React, { useEffect } from 'react';
+import { getFavoriteRooms } from '../../store/favorites/selectors';
 
 function FavoritesPage(): JSX.Element {
-  const favoriteRoomsRequestStatus = useAppSelector(getFavoriteRoomsRequestStatus);
+  //const favoriteRoomsRequestStatus = useAppSelector(getFavoriteRoomsRequestStatus);
   const dispatch = useAppDispatch();
 
-  if ([RequestStatus.idle].includes(favoriteRoomsRequestStatus)) {
+  useEffect(() => {
     dispatch(fetchFavoriteRooms());
-  }
+  }, [dispatch]);
 
   const favoriteRooms = useAppSelector(getFavoriteRooms);
   const favoriteCities: string[] = Array.from(new Set(favoriteRooms.map((room) => room.city.name)));

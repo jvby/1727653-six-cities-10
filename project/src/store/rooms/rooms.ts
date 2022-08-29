@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {NameSpace, RequestStatus} from '../../const';
 import { RoomType } from '../../types/room';
-import { changeFavoriteOption, fetchActiveRoom, fetchFavoriteRooms, fetchNearRooms, fetchRooms, loginAction, logoutAction } from '../api-actions';
+import { changeFavoriteOption, fetchActiveRoom, fetchNearRooms, fetchRooms } from '../api-actions';
 
 export type RoomsInitialState = {
   rooms: RoomType[],
@@ -10,9 +10,6 @@ export type RoomsInitialState = {
   activeRoomRequestStatus: RequestStatus,
   nearRoomData: RoomType[],
   nearRoomRequestStatus: RequestStatus,
-  changeFavoriteRoomRequestStatus: RequestStatus,
-  favoriteRooms: RoomType[],
-  favoriteRoomsRequestStatus: RequestStatus,
 };
 
 const initialState: RoomsInitialState = {
@@ -22,12 +19,9 @@ const initialState: RoomsInitialState = {
   activeRoomRequestStatus: RequestStatus.idle,
   nearRoomData: [],
   nearRoomRequestStatus: RequestStatus.idle,
-  changeFavoriteRoomRequestStatus: RequestStatus.idle,
-  favoriteRooms: [],
-  favoriteRoomsRequestStatus: RequestStatus.idle,
 };
 
-export const roomProcess = createSlice({
+export const roomsSlice = createSlice({
   name: NameSpace.Rooms,
   initialState,
   reducers: {},
@@ -61,49 +55,23 @@ export const roomProcess = createSlice({
         state.nearRoomRequestStatus = RequestStatus.error;
       })
       .addCase(changeFavoriteOption.fulfilled, (state, action) => {
-        state.changeFavoriteRoomRequestStatus = RequestStatus.success;
-        const indexOfRoom = state.rooms.findIndex((room) => room.id === action.payload.id);
-        const indexOfNearRoom = state.nearRoomData.findIndex((room) => room.id === action.payload.id);
-        const indexOfFavoriteRoom = state.favoriteRooms.findIndex((room) => room.id === action.payload.id);
         if (state.activeRoomData !== null && state.activeRoomData.id === action.payload.id) {
           state.activeRoomData = action.payload;
         }
-        if (indexOfRoom !== -1) {
-          state.rooms[indexOfRoom].isFavorite = action.payload.isFavorite;
-        }
-        if (indexOfNearRoom !== -1) {
-          state.nearRoomData[indexOfNearRoom].isFavorite = action.payload.isFavorite;
-        }
-        if (indexOfFavoriteRoom === -1) {
-          state.favoriteRooms.push(action.payload);
-        } else {
-          state.favoriteRooms.splice(indexOfFavoriteRoom, 1);
-        }
-
-      })
-      .addCase(changeFavoriteOption.pending, (state) => {
-        state.changeFavoriteRoomRequestStatus = RequestStatus.request;
-      })
-      .addCase(changeFavoriteOption.rejected, (state) => {
-        state.changeFavoriteRoomRequestStatus = RequestStatus.error;
-      })
-      .addCase(fetchFavoriteRooms.fulfilled, (state, action) => {
-        state.favoriteRoomsRequestStatus = RequestStatus.success;
-        state.favoriteRooms = action.payload;
-      })
-      .addCase(fetchFavoriteRooms.pending, (state) => {
-        state.favoriteRoomsRequestStatus = RequestStatus.request;
-      })
-      .addCase(fetchFavoriteRooms.rejected, (state) => {
-        state.favoriteRoomsRequestStatus = RequestStatus.error;
-      })
-      .addCase(loginAction.fulfilled, (state) => {
-        state.favoriteRoomsRequestStatus = RequestStatus.idle;
-        state.roomsRequestStatus = RequestStatus.idle;
-      })
-      .addCase(logoutAction.fulfilled, (state) => {
-        state.favoriteRoomsRequestStatus = RequestStatus.idle;
-        state.roomsRequestStatus = RequestStatus.idle;
+        state.rooms = state.rooms.map((room) => {
+          if (room.id === action.payload.id) {
+            return action.payload;
+          } else {
+            return room;
+          }
+        });
+        state.nearRoomData = state.nearRoomData.map((room) => {
+          if (room.id === action.payload.id) {
+            return action.payload;
+          } else {
+            return room;
+          }
+        });
       });
   }
 });

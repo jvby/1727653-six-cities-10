@@ -18,9 +18,9 @@ export function FavoriteButton({ isFavorite, roomID, from }: FavoriteButtonsProp
 
   const favoriteButtonClass = cn('button', {
     'place-card__bookmark-button': from === 'card-place',
-    'place-card__bookmark-button--active': isFavorite === true && from === 'card-place',
+    'place-card__bookmark-button--active': isFavorite && from === 'card-place',
     'property__bookmark-button ': from === 'room-page',
-    'property__bookmark-button--active': isFavorite === true && from === 'room-page'
+    'property__bookmark-button--active': isFavorite && from === 'room-page'
   });
 
   const iconWidth = (source: string) => {
@@ -49,10 +49,9 @@ export function FavoriteButton({ isFavorite, roomID, from }: FavoriteButtonsProp
     if (authorizationStatus === AuthorizationStatus.NoAuth) {
       navigate(AppRoute.Login);
     } else {
-      isFavorite = !isFavorite;
       dispatch(changeFavoriteOption({
         roomID,
-        isFavorite: isFavorite ? 1 : 0,
+        isFavorite: Number(!isFavorite),
       }));
     }
   };

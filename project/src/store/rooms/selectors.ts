@@ -14,10 +14,6 @@ export const getActiveRoomRequestStatus = (state: State): RequestStatus => state
 
 export const getNearRoomData = (state: State): RoomType[] => state[NameSpace.Rooms].nearRoomData;
 
-export const getFavoriteRooms = (state: State): RoomType[] => state[NameSpace.Rooms].favoriteRooms;
-
-export const getFavoriteRoomsRequestStatus = (state: State): RequestStatus => state[NameSpace.Rooms].favoriteRoomsRequestStatus;
-
 export const getFiltredAndSortedRooms = createSelector(
   [getRooms, getActiveCity, getSortType],
   (rooms, activeCity, sortType) => {

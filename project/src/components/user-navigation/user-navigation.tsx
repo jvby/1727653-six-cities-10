@@ -4,7 +4,7 @@ import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { store } from '../../store';
 import { logoutAction } from '../../store/api-actions';
-import { getFavoriteRooms } from '../../store/rooms/selectors';
+import { getFavoriteRooms } from '../../store/favorites/selectors';
 import { getAuthorizationStatus, getLoggedUser } from '../../store/user/selectors';
 
 export function UserNavigation(): JSX.Element {
