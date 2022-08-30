@@ -1,22 +1,15 @@
-import { Fragment, useEffect } from 'react';
+import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../hooks';
 import { store } from '../../store';
-import { fetchFavoriteRooms, logoutAction } from '../../store/api-actions';
+import { logoutAction } from '../../store/api-actions';
 import { getFavoriteRooms } from '../../store/favorites/selectors';
 import { getLoggedUser } from '../../store/user/selectors';
 
 export function UserInformation(): JSX.Element {
   const loggedUser = useAppSelector(getLoggedUser);
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(fetchFavoriteRooms());
-  }, [dispatch]);
-
   const favoriteRooms = useAppSelector(getFavoriteRooms);
-
 
   return (
     <Fragment>

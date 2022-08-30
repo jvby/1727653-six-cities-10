@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Header } from '../../components/header/header';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { AppRoute } from '../../const';
-import { fetchFavoriteRooms } from '../../store/api-actions';
+import { fetchFavoritesRooms } from '../../store/api-actions';
 import { FavoritesEmpty } from '../../components/favorites-empty/favorites-empty';
 import React, { useEffect } from 'react';
 import { getFavoriteRooms } from '../../store/favorites/selectors';
@@ -12,7 +12,7 @@ function FavoritesPage(): JSX.Element {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchFavoriteRooms());
+    dispatch(fetchFavoritesRooms());
   }, [dispatch]);
 
   const favoriteRooms = useAppSelector(getFavoriteRooms);

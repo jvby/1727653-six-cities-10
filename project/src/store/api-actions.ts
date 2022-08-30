@@ -21,11 +21,11 @@ export const fetchRooms = createAsyncThunk<RoomType[], undefined, {
   },
 );
 
-export const fetchFavoriteRooms = createAsyncThunk<RoomType[], undefined, {
+export const fetchFavoritesRooms = createAsyncThunk<RoomType[], undefined, {
   state: State,
   extra: AxiosInstance
 }>(
-  'offers/fetchFavoriteRooms',
+  'offers/fetchFavoritesRooms',
   async (_arg, {extra: api}) => {
     const {data} = await api.get<RoomType[]>(APIRoute.Favorites);
     return data;
@@ -94,9 +94,18 @@ export const checkAuthAction = createAsyncThunk<UserData, undefined, {
   extra: AxiosInstance
 }>(
   'offers/checkAuth',
-  async (_arg, {extra: api}) => {
-    const {data} = await api.get<UserData>(APIRoute.Login);
-    return data;
+  async (_arg, {dispatch, extra: api}) => {
+    try {
+      const {data} = await api.get<UserData>(APIRoute.Login);
+      dispatch(fetchFavoritesRooms());
+      return data;
+    }
+    catch (e) {
+      if (e instanceof Error) {
+        toast.error(e.message);
+      }
+      throw e;
+    }
   },
 );
 
@@ -106,9 +115,10 @@ export const loginAction = createAsyncThunk<UserData, AuthData, {
   extra: AxiosInstance
 }>(
   'offers/login',
-  async ({login: email, password}, {extra: api}) => {
+  async ({login: email, password}, {dispatch, extra: api}) => {
     const {data} = await api.post<UserData>(APIRoute.Login, {email, password});
     saveToken(data.token);
+    dispatch(fetchFavoritesRooms());
     return data;
   },
 );

@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {NameSpace, RequestStatus} from '../../const';
 import { RoomType } from '../../types/room';
-import { changeFavoriteOption, fetchFavoriteRooms } from '../api-actions';
+import { changeFavoriteOption, fetchFavoritesRooms } from '../api-actions';
 
 export type RoomsInitialState = {
   changeFavoriteRoomRequestStatus: RequestStatus,
@@ -37,14 +37,14 @@ export const favoritesSlice = createSlice({
       .addCase(changeFavoriteOption.rejected, (state) => {
         state.changeFavoriteRoomRequestStatus = RequestStatus.error;
       })
-      .addCase(fetchFavoriteRooms.fulfilled, (state, action) => {
+      .addCase(fetchFavoritesRooms.fulfilled, (state, action) => {
         state.favoriteRoomsRequestStatus = RequestStatus.success;
         state.favoriteRooms = action.payload;
       })
-      .addCase(fetchFavoriteRooms.pending, (state) => {
+      .addCase(fetchFavoritesRooms.pending, (state) => {
         state.favoriteRoomsRequestStatus = RequestStatus.request;
       })
-      .addCase(fetchFavoriteRooms.rejected, (state) => {
+      .addCase(fetchFavoritesRooms.rejected, (state) => {
         state.favoriteRoomsRequestStatus = RequestStatus.error;
       });
   }
