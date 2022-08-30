@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { CityTab } from '../../components/city-tab/city-tab';
 import { PlacesSort } from '../../components/places-sort/places-sort';
 import { PlacesMap } from '../../components/places-map/places-map';
-import {useAppSelector} from '../../hooks';
+import { useAppSelector} from '../../hooks';
 import {EmptyPlaces} from '../../components/places-empty/places-empty';
 import cn from 'classnames';
 import LoadingScreen from '../../components/loading-screen/loading-screen';
@@ -12,14 +12,16 @@ import { ErrorScreen } from '../../components/error-screen/error-screen';
 import { RequestStatus } from '../../const';
 import { getFiltredAndSortedRooms, getRoomsRequestStatus } from '../../store/rooms/selectors';
 import { getActiveCity } from '../../store/ui/selectors';
+import { getFavoriteRoomsRequestStatus } from '../../store/favorites/selectors';
 
 function MainPage(): JSX.Element {
   const currentCity = useAppSelector(getActiveCity);
   const rooms = useAppSelector(getFiltredAndSortedRooms);
   const [activeRoomID, setActiveRoomID] = useState<number | null>(null);
   const roomsRequestStatus = useAppSelector(getRoomsRequestStatus);
+  const favoriteRoomsRequestStatus = useAppSelector(getFavoriteRoomsRequestStatus);
 
-  if ([RequestStatus.idle, RequestStatus.request].includes(roomsRequestStatus)){
+  if ([RequestStatus.idle, RequestStatus.request].includes(roomsRequestStatus) && [RequestStatus.request].includes(favoriteRoomsRequestStatus)){
     return (
       <LoadingScreen/>
     );

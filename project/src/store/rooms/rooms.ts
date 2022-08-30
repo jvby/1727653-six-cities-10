@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {NameSpace, RequestStatus} from '../../const';
 import { RoomType } from '../../types/room';
-import { fetchActiveRoom, fetchNearRooms, fetchRooms } from '../api-actions';
+import { changeFavoriteOption, fetchActiveRoom, fetchNearRooms, fetchRooms } from '../api-actions';
 
 export type RoomsInitialState = {
   rooms: RoomType[],
@@ -21,7 +21,7 @@ const initialState: RoomsInitialState = {
   nearRoomRequestStatus: RequestStatus.idle,
 };
 
-export const roomProcess = createSlice({
+export const roomsSlice = createSlice({
   name: NameSpace.Rooms,
   initialState,
   reducers: {},
@@ -54,8 +54,24 @@ export const roomProcess = createSlice({
       .addCase(fetchNearRooms.rejected, (state) => {
         state.nearRoomRequestStatus = RequestStatus.error;
       })
-      .addCase(fetchNearRooms.pending, (state) => {
-        state.nearRoomRequestStatus = RequestStatus.request;
+      .addCase(changeFavoriteOption.fulfilled, (state, action) => {
+        if (state.activeRoomData !== null && state.activeRoomData.id === action.payload.id) {
+          state.activeRoomData = action.payload;
+        }
+        state.rooms = state.rooms.map((room) => {
+          if (room.id === action.payload.id) {
+            return action.payload;
+          } else {
+            return room;
+          }
+        });
+        state.nearRoomData = state.nearRoomData.map((room) => {
+          if (room.id === action.payload.id) {
+            return action.payload;
+          } else {
+            return room;
+          }
+        });
       });
   }
 });

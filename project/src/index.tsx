@@ -1,13 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
-import { rooms } from './mock/room';
-import { comments } from './mock/comment';
 import { Provider } from 'react-redux';
 import { store } from './store';
-import { checkAuthAction, fetchRooms } from './store/api-actions';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { checkAuthAction, fetchRooms } from './store/api-actions';
 
 store.dispatch(fetchRooms());
 store.dispatch(checkAuthAction());
@@ -30,10 +28,7 @@ root.render(
         draggable
         pauseOnHover
       />
-      <App
-        rooms={rooms}
-        comments={comments}
-      />
+      <App/>
     </Provider>
   </React.StrictMode>,
 );

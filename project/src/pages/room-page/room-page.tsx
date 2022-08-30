@@ -59,7 +59,7 @@ function RoomPage(): JSX.Element {
                 <h1 className="property__name">
                   {roomToRender.title}
                 </h1>
-                <FavoriteButton isFavorite={roomToRender.isFavorite} from={'room-page'}/>
+                <FavoriteButton isFavorite={roomToRender.isFavorite} roomID={roomToRender.id} from={'room-page'}/>
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">

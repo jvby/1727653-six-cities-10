@@ -24,9 +24,14 @@ export const userSlice = createSlice({
       .addCase(checkAuthAction.fulfilled, (state, action) => {
         state.authorizationStatus = AuthorizationStatus.Auth;
         state.loggedUser = action.payload;
+        state.authorizationRequestStatus = RequestStatus.success;
       })
       .addCase(checkAuthAction.rejected, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
+        state.authorizationRequestStatus = RequestStatus.success;
+      })
+      .addCase(checkAuthAction.pending, (state) => {
+        state.authorizationRequestStatus = RequestStatus.request;
       })
       .addCase(loginAction.pending, (state) => {
         state.authorizationRequestStatus = RequestStatus.request;

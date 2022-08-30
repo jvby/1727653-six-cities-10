@@ -52,6 +52,7 @@ export enum NameSpace {
   Comments = 'COMMENTS',
   User = 'USER',
   UserInterface = 'UI',
+  Favorites = 'FAVORITES',
 }
 
 export enum SortingType {
