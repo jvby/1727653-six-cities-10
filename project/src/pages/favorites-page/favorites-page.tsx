@@ -9,7 +9,6 @@ import React, { useEffect } from 'react';
 import { getFavoriteRooms } from '../../store/favorites/selectors';
 
 function FavoritesPage(): JSX.Element {
-  //const favoriteRoomsRequestStatus = useAppSelector(getFavoriteRoomsRequestStatus);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
