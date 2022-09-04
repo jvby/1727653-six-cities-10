@@ -14,11 +14,11 @@ export type RoomsInitialState = {
 
 const initialState: RoomsInitialState = {
   rooms: [],
-  roomsRequestStatus: RequestStatus.idle,
+  roomsRequestStatus: RequestStatus.Idle,
   activeRoomData: null,
-  activeRoomRequestStatus: RequestStatus.idle,
+  activeRoomRequestStatus: RequestStatus.Idle,
   nearRoomData: [],
-  nearRoomRequestStatus: RequestStatus.idle,
+  nearRoomRequestStatus: RequestStatus.Idle,
 };
 
 export const roomsSlice = createSlice({
@@ -28,31 +28,31 @@ export const roomsSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchRooms.fulfilled, (state, action) => {
-        state.roomsRequestStatus = RequestStatus.success;
+        state.roomsRequestStatus = RequestStatus.Success;
         state.rooms = action.payload;
       })
       .addCase(fetchRooms.rejected, (state) => {
-        state.roomsRequestStatus = RequestStatus.error;
+        state.roomsRequestStatus = RequestStatus.Error;
       })
       .addCase(fetchRooms.pending, (state) => {
-        state.roomsRequestStatus = RequestStatus.request;
+        state.roomsRequestStatus = RequestStatus.Request;
       })
       .addCase(fetchActiveRoom.fulfilled, (state, action) => {
-        state.activeRoomRequestStatus = RequestStatus.success;
+        state.activeRoomRequestStatus = RequestStatus.Success;
         state.activeRoomData = action.payload;
       })
       .addCase(fetchActiveRoom.rejected, (state) => {
-        state.activeRoomRequestStatus = RequestStatus.error;
+        state.activeRoomRequestStatus = RequestStatus.Error;
       })
       .addCase(fetchActiveRoom.pending, (state) => {
-        state.activeRoomRequestStatus = RequestStatus.request;
+        state.activeRoomRequestStatus = RequestStatus.Request;
       })
       .addCase(fetchNearRooms.fulfilled, (state, action) => {
-        state.nearRoomRequestStatus = RequestStatus.success;
+        state.nearRoomRequestStatus = RequestStatus.Success;
         state.nearRoomData = action.payload;
       })
       .addCase(fetchNearRooms.rejected, (state) => {
-        state.nearRoomRequestStatus = RequestStatus.error;
+        state.nearRoomRequestStatus = RequestStatus.Error;
       })
       .addCase(changeFavoriteOption.fulfilled, (state, action) => {
         if (state.activeRoomData !== null && state.activeRoomData.id === action.payload.id) {

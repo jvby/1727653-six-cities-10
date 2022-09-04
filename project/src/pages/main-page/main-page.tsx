@@ -1,6 +1,6 @@
 import { CardPlace } from '../../components/card-place/card-place';
 import { Header } from '../../components/header/header';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { CityTab } from '../../components/city-tab/city-tab';
 import { PlacesSort } from '../../components/places-sort/places-sort';
 import { PlacesMap } from '../../components/places-map/places-map';
@@ -21,13 +21,13 @@ function MainPage(): JSX.Element {
   const roomsRequestStatus = useAppSelector(getRoomsRequestStatus);
   const favoriteRoomsRequestStatus = useAppSelector(getFavoriteRoomsRequestStatus);
 
-  if ([RequestStatus.idle, RequestStatus.request].includes(roomsRequestStatus) && [RequestStatus.request].includes(favoriteRoomsRequestStatus)){
+  if ([RequestStatus.Idle, RequestStatus.Request].includes(roomsRequestStatus) && [RequestStatus.Request].includes(favoriteRoomsRequestStatus)){
     return (
       <LoadingScreen/>
     );
   }
 
-  if ([RequestStatus.error].includes(roomsRequestStatus)){
+  if ([RequestStatus.Error].includes(roomsRequestStatus)){
     return (
       <ErrorScreen/>
     );

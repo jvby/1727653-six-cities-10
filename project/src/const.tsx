@@ -41,10 +41,10 @@ export enum APIRoute {
 }
 
 export enum RequestStatus {
-  idle = 'idle',
-  request = 'request',
-  success = 'success',
-  error = 'error',
+  Idle = 'idle',
+  Request = 'request',
+  Success = 'success',
+  Error = 'error',
 }
 
 export enum NameSpace {
@@ -87,8 +87,12 @@ export const RATINGS: Ratings[] = [
   },
 ];
 
-export const MIN_RATING = 0;
-export const MAX_RATING = 0;
+export enum CommentRatingValue {
+  MinValue = 0,
+  MaxValue = 5,
+}
 
-export const MIN_COMMENT_LENGTH = 50;
-export const MAX_COMMENT_LENGTH = 300;
+export enum CommentLength {
+  MinLength = 50,
+  MaxLength = 300,
+}

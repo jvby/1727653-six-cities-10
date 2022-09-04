@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 import style from './not-found-page.module.css';
 
 function NotFoundPage(): JSX.Element {

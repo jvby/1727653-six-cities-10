@@ -11,8 +11,8 @@ export type CommentsInitialState = {
 
 const initialState: CommentsInitialState = {
   commentsData: [],
-  commentsRequestStatus: RequestStatus.idle,
-  postCommentRequestStatus: RequestStatus.idle,
+  commentsRequestStatus: RequestStatus.Idle,
+  postCommentRequestStatus: RequestStatus.Idle,
 };
 
 export const commentsSlice = createSlice({
@@ -22,24 +22,24 @@ export const commentsSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(postComment.fulfilled, (state, action) => {
-        state.postCommentRequestStatus = RequestStatus.success;
+        state.postCommentRequestStatus = RequestStatus.Success;
         state.commentsData = action.payload;
       })
       .addCase(postComment.rejected, (state) => {
-        state.postCommentRequestStatus = RequestStatus.error;
+        state.postCommentRequestStatus = RequestStatus.Error;
       })
       .addCase(postComment.pending, (state) => {
-        state.postCommentRequestStatus = RequestStatus.request;
+        state.postCommentRequestStatus = RequestStatus.Request;
       })
       .addCase(fetchComments.fulfilled, (state, action) => {
-        state.commentsRequestStatus = RequestStatus.success;
+        state.commentsRequestStatus = RequestStatus.Success;
         state.commentsData = action.payload;
       })
       .addCase(fetchComments.rejected, (state) => {
-        state.commentsRequestStatus = RequestStatus.error;
+        state.commentsRequestStatus = RequestStatus.Error;
       })
       .addCase(fetchComments.pending, (state) => {
-        state.commentsRequestStatus = RequestStatus.request;
+        state.commentsRequestStatus = RequestStatus.Request;
       });
   }
 });

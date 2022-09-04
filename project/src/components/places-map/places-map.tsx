@@ -2,7 +2,7 @@ import cn from 'classnames';
 import { RoomType, City } from '../../types/room';
 import {Icon, Marker} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import useMap from '../../hooks/use-map/use-map';
 import { DefaultCity } from '../../const';
 

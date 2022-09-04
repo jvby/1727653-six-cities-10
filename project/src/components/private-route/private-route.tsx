@@ -14,7 +14,7 @@ function PrivateRoute(props: PrivateRouteProps): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const authorizationRequestStatus = useAppSelector(getAuthorizationRequestStatus);
 
-  if ([RequestStatus.idle, RequestStatus.request].includes(authorizationRequestStatus)){
+  if ([RequestStatus.Idle, RequestStatus.Request].includes(authorizationRequestStatus)){
     return (
       <LoadingScreen/>
     );

@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { AppRoute } from '../../const';
 import { fetchFavoritesRooms } from '../../store/api-actions';
 import { FavoritesEmpty } from '../../components/favorites-empty/favorites-empty';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { getFavoriteRooms } from '../../store/favorites/selectors';
 
 function FavoritesPage(): JSX.Element {

@@ -10,9 +10,9 @@ export type RoomsInitialState = {
 };
 
 const initialState: RoomsInitialState = {
-  changeFavoriteRoomRequestStatus: RequestStatus.idle,
+  changeFavoriteRoomRequestStatus: RequestStatus.Idle,
   favoriteRooms: [],
-  favoriteRoomsRequestStatus: RequestStatus.idle,
+  favoriteRoomsRequestStatus: RequestStatus.Idle,
 };
 
 export const favoritesSlice = createSlice({
@@ -22,7 +22,7 @@ export const favoritesSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(changeFavoriteOption.fulfilled, (state, action) => {
-        state.changeFavoriteRoomRequestStatus = RequestStatus.success;
+        state.changeFavoriteRoomRequestStatus = RequestStatus.Success;
         const indexOfFavoriteRoom = state.favoriteRooms.findIndex((room) => room.id === action.payload.id);
         if (indexOfFavoriteRoom === -1) {
           state.favoriteRooms.push(action.payload);
@@ -32,20 +32,20 @@ export const favoritesSlice = createSlice({
 
       })
       .addCase(changeFavoriteOption.pending, (state) => {
-        state.changeFavoriteRoomRequestStatus = RequestStatus.request;
+        state.changeFavoriteRoomRequestStatus = RequestStatus.Request;
       })
       .addCase(changeFavoriteOption.rejected, (state) => {
-        state.changeFavoriteRoomRequestStatus = RequestStatus.error;
+        state.changeFavoriteRoomRequestStatus = RequestStatus.Error;
       })
       .addCase(fetchFavoritesRooms.fulfilled, (state, action) => {
-        state.favoriteRoomsRequestStatus = RequestStatus.success;
+        state.favoriteRoomsRequestStatus = RequestStatus.Success;
         state.favoriteRooms = action.payload;
       })
       .addCase(fetchFavoritesRooms.pending, (state) => {
-        state.favoriteRoomsRequestStatus = RequestStatus.request;
+        state.favoriteRoomsRequestStatus = RequestStatus.Request;
       })
       .addCase(fetchFavoritesRooms.rejected, (state) => {
-        state.favoriteRoomsRequestStatus = RequestStatus.error;
+        state.favoriteRoomsRequestStatus = RequestStatus.Error;
       });
   }
 });

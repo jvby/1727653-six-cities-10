@@ -11,7 +11,7 @@ export type User = {
 
 const initialState: User = {
   authorizationStatus: AuthorizationStatus.Unknown,
-  authorizationRequestStatus: RequestStatus.idle,
+  authorizationRequestStatus: RequestStatus.Idle,
   loggedUser: null,
 };
 
@@ -24,26 +24,26 @@ export const userSlice = createSlice({
       .addCase(checkAuthAction.fulfilled, (state, action) => {
         state.authorizationStatus = AuthorizationStatus.Auth;
         state.loggedUser = action.payload;
-        state.authorizationRequestStatus = RequestStatus.success;
+        state.authorizationRequestStatus = RequestStatus.Success;
       })
       .addCase(checkAuthAction.rejected, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
-        state.authorizationRequestStatus = RequestStatus.success;
+        state.authorizationRequestStatus = RequestStatus.Success;
       })
       .addCase(checkAuthAction.pending, (state) => {
-        state.authorizationRequestStatus = RequestStatus.request;
+        state.authorizationRequestStatus = RequestStatus.Request;
       })
       .addCase(loginAction.pending, (state) => {
-        state.authorizationRequestStatus = RequestStatus.request;
+        state.authorizationRequestStatus = RequestStatus.Request;
       })
       .addCase(loginAction.fulfilled, (state, action) => {
         state.authorizationStatus = AuthorizationStatus.Auth;
-        state.authorizationRequestStatus = RequestStatus.success;
+        state.authorizationRequestStatus = RequestStatus.Success;
         state.loggedUser = action.payload;
       })
       .addCase(loginAction.rejected, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
-        state.authorizationRequestStatus = RequestStatus.error;
+        state.authorizationRequestStatus = RequestStatus.Error;
       })
       .addCase(logoutAction.fulfilled, (state, action) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;

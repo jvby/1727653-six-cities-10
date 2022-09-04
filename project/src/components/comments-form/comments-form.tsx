@@ -1,6 +1,6 @@
-import React, {useState, ChangeEvent, FormEvent} from 'react';
+import {useState, ChangeEvent, FormEvent} from 'react';
 import { Fragment } from 'react';
-import { MAX_COMMENT_LENGTH, MAX_RATING, MIN_COMMENT_LENGTH, MIN_RATING, RATINGS, RequestStatus } from '../../const';
+import { CommentLength, CommentRatingValue, RATINGS, RequestStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { postComment } from '../../store/api-actions';
 import { getPostCommentRequestStatus } from '../../store/comments/selectors';
@@ -42,7 +42,7 @@ export function CommentsForm(): JSX.Element {
     const { value } = evt.target;
     const rating = parseInt(value, 10);
 
-    const isRatingValid = rating > MIN_RATING || rating <= MAX_RATING;
+    const isRatingValid = rating > CommentRatingValue.MinValue || rating <= CommentRatingValue.MaxValue;
 
     setFormData({
       ...formData,
@@ -56,7 +56,7 @@ export function CommentsForm(): JSX.Element {
 
   const handleCommentChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = evt.target;
-    const hasCommentEnoughLength = value.length >= MIN_COMMENT_LENGTH && value.length <= MAX_COMMENT_LENGTH;
+    const hasCommentEnoughLength = value.length >= CommentLength.MinLength && value.length <= CommentLength.MaxLength;
 
     setFormData({
       ...formData,
@@ -81,7 +81,7 @@ export function CommentsForm(): JSX.Element {
     }));
   };
 
-  const isFormDisabled = commentPostRequestStatus === RequestStatus.request;
+  const isFormDisabled = commentPostRequestStatus === RequestStatus.Request;
 
   const isSubmitDisabled = !formData.rating.isChecked || formData.comment.error;
 

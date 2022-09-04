@@ -22,7 +22,7 @@ function LoginPage(): JSX.Element {
   }, [authorizationStatus, navigate]
   );
 
-  if (authorizationRequest === RequestStatus.request) {
+  if (authorizationRequest === RequestStatus.Request) {
     return (
       <LoadingScreen/>
     );

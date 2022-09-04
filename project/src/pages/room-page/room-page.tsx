@@ -32,7 +32,7 @@ function RoomPage(): JSX.Element {
   const roomToRender = useAppSelector(getActiveRoomData);
   const activeRoomRequestStatus = useAppSelector(getActiveRoomRequestStatus);
 
-  if ([RequestStatus.idle, RequestStatus.request]
+  if ([RequestStatus.Idle, RequestStatus.Request]
     .includes(activeRoomRequestStatus) ||
     !roomToRender){
     return (
@@ -40,7 +40,7 @@ function RoomPage(): JSX.Element {
     );
   }
 
-  if ([RequestStatus.error].includes(activeRoomRequestStatus)){
+  if ([RequestStatus.Error].includes(activeRoomRequestStatus)){
     return (
       <NotFoundPage/>
     );
